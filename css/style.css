@@ -409,6 +409,10 @@ img {
   padding: var(--odstep-4);
   box-shadow: var(--cien);
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 190px;
 }
 
 .karta-waluty:hover {
@@ -476,9 +480,11 @@ img {
 
 .liczba-kursu {
   font: var(--tekst-liczba);
-  font-size: 1.85rem;
+  font-size: 1.75rem;
+  font-weight: 700;
   color: var(--kolor-tekst);
   display: block;
+  white-space: nowrap;
 }
 
 .karta-szczegoly {
@@ -488,6 +494,7 @@ img {
   padding-top: var(--odstep-2);
   font: var(--tekst-etykieta);
   opacity: 0.85;
+  gap: var(--odstep-2);
 }
 
 /* ==========================================================
