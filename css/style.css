@@ -1,0 +1,60 @@
+/* ==========================================================
+   Zmienne z systemu wizualnego (docs/system-wizualny.png)
+   Motyw jasny jest domyślny. Motyw ciemny włącza atrybut
+   data-theme="dark" na elemencie <html>.
+   ========================================================== */
+
+:root {
+  /* Kolory marki (takie same w obu motywach) */
+  --kolor-glowny: #1d4ed8;
+  --kolor-akcent: #0ea5a4;
+  --kolor-wzrost: #16a34a;
+  --kolor-spadek: #dc2626;
+
+  /* Powierzchnie i tekst */
+  --kolor-tlo: #f5f7fb;
+  --kolor-powierzchnia: #ffffff;
+  --kolor-tekst: #14213b;
+  --kolor-obramowanie: #dce3ee;
+
+  /* Kolory tekstu o kontraście AA (linki, etykiety wzrostu i spadku) */
+  --kolor-link: #1d4ed8;
+  --kolor-akcent-tekst: #087e80;
+  --kolor-wzrost-tekst: #15803d;
+  --kolor-spadek-tekst: #b91c1c;
+
+  /* Typografia: Inter, rozmiar / wysokość linii */
+  --font: "Inter", system-ui, sans-serif;
+  --tekst-naglowek: 700 44px/51px var(--font);
+  --tekst-liczba: 650 36px/44px var(--font);
+  --tekst-tytul-karty: 650 22px/28px var(--font);
+  --tekst-tresc: 400 14px/20px var(--font);
+  --tekst-etykieta: 500 12px/18px var(--font);
+
+  /* Odstępy (siatka 8 px) */
+  --odstep-1: 4px;
+  --odstep-2: 8px;
+  --odstep-3: 16px;
+  --odstep-4: 24px;
+  --odstep-5: 32px;
+  --odstep-6: 48px;
+
+  /* Powierzchnie */
+  --promien: 12px;
+  --cien: 0 1px 3px rgba(20, 33, 59, 0.08);
+  --wysokosc-pola: 48px;
+  --wysokosc-przycisku: 44px;
+  --obrys-fokus: 3px solid var(--kolor-glowny);
+}
+
+[data-theme="dark"] {
+  --kolor-tlo: #0b1220;
+  --kolor-powierzchnia: #121e30;
+  --kolor-tekst: #f0f4fc;
+  --kolor-obramowanie: #2b3a50;
+
+  --kolor-link: #93b4ff;
+  --kolor-akcent-tekst: #5cded8;
+  --kolor-wzrost-tekst: #6ee7a0;
+  --kolor-spadek-tekst: #fda4a4;
+}
