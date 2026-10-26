@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="KursyWalut - Interaktywny serwis analizy i przeliczania kursów walut NBP. Notowania średnie, kupna i sprzedaży, kalkulator oraz wykresy.">
+  <title>KursyWalut – Notowania NBP, Kalkulator i Analiza Rynku</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Główny nagłówek witryny z logo, nawigacją i przełącznikiem motywu -->
+  <header class="naglowek-glowny">
+    <div class="kontener naglowek-kontener">
+      <a href="index.html" class="logo-link" aria-label="Strona główna KursyWalut">
+        <img src="img/logo.svg" alt="Logo KursyWalut" class="logo-obrazek" width="40" height="40">
+        <span class="logo-tekst">Kursy<strong>Walut</strong></span>
+      </a>
+
+      <nav class="nawigacja-glowna" aria-label="Główne menu nawigacyjne">
+        <ul class="menu-lista">
+          <li class="menu-element"><a href="index.html" class="menu-link aktywny" aria-current="page">Strona główna</a></li>
+          <li class="menu-element"><a href="dane.html" class="menu-link">Tabela kursów</a></li>
+          <li class="menu-element"><a href="analiza.html" class="menu-link">Analiza i wykresy</a></li>
+          <li class="menu-element"><a href="formularz.html" class="menu-link">Alert kursowy</a></li>
+          <li class="menu-element"><a href="o-projekcie.html" class="menu-link">O projekcie</a></li>
+        </ul>
+      </nav>
+
+      <div class="akcje-naglowka">
+        <button type="button" id="przelacznik-motywu" class="przycisk-motyw" aria-label="Przełącz motyw jasny / ciemny">
+          🌙 Motyw ciemny
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Pasek informacyjny z datą notowań NBP -->
+  <div class="pasek-info" role="region" aria-label="Informacja o aktualności notowań">
+    <div class="kontener pasek-info-kontener">
+      <span class="status-kropka" aria-hidden="true"></span>
+      <p class="status-tekst">
+        Oficjalne notowania Narodowego Banku Polskiego (Tabela A i C) | Ostatnia aktualizacja danych: <strong>23 października 2026 r.</strong>
+      </p>
+    </div>
+  </div>
+
+  <!-- Główna zawartość strony -->
+  <main class="glowna-zawartosc">
+    <div class="kontener">
+
+      <!-- Sekcja wprowadzająca (Hero) -->
+      <section class="sekcja-hero" aria-labelledby="tytul-hero">
+        <div class="hero-tresc">
+          <span class="nadtytul">Inżynieria i analiza danych finansowych</span>
+          <h1 id="tytul-hero" class="tytul-glowny">Interaktywna platforma analizy kursów walut NBP</h1>
+          <p class="hero-opis">
+            Śledź dzienne notowania, analizuj trendy historyczne najważniejszych walut światowych
+            oraz błyskawicznie przeliczaj kwoty według kursów średnich, kupna i sprzedaży.
+          </p>
+          <div class="hero-przyciski">
+            <a href="#sekcja-kalkulator" class="przycisk przycisk-glowny">Otwórz kalkulator walut</a>
+            <a href="dane.html" class="przycisk przycisk-drugorzedny">Przeglądaj pełną tabelę</a>
+          </div>
+        </div>
+
+        <figure class="hero-grafika">
+          <img src="img/hero-finanse.svg" alt="Wizualizacja wykresu wahań kursów walut oraz symboli EUR, USD i PLN" width="520" height="320">
+          <figcaption class="podpis-grafiki">Wizualizacja dynamiki rynku walutowego i relacji kursowych do złotego (PLN).</figcaption>
+        </figure>
+      </section>
+
+      <!-- Sekcja popularnych walut (Szybki podgląd rynkowy) -->
+      <section class="sekcja-popularne" aria-labelledby="tytul-popularne">
+        <header class="sekcja-naglowek-blok">
+          <h2 id="tytul-popularne" class="sekcja-tytul">Popularne waluty – szybki podgląd</h2>
+          <p class="sekcja-podtytul">Kluczowe kursy bazowe względem polskiego złotego (PLN)</p>
+        </header>
+
+        <div class="siatka-kart-walut">
+          <!-- Karta: Euro (EUR) -->
+          <article class="karta-waluty">
+            <div class="karta-naglowek">
+              <div class="karta-waluta-info">
+                <img src="img/flagi/eur.svg" alt="Flaga Unii Europejskiej" class="flaga-ikona" width="28" height="21">
+                <div>
+                  <h3 class="karta-kod">EUR</h3>
+                  <span class="karta-pelna-nazwa">Euro</span>
+                </div>
+              </div>
+              <span class="odznaka-zmiany odznaka-wzrost" aria-label="Wzrost o 0.15%">+0.15%</span>
+            </div>
+            <div class="karta-kurs-wartosc">
+              <span class="etykieta-kursu">Kurs średni:</span>
+              <span class="liczba-kursu">4.2415 zł</span>
+            </div>
+            <div class="karta-szczegoly">
+              <span class="szczegol-wiersz">Kupno: <strong>4.2010 zł</strong></span>
+              <span class="szczegol-wiersz">Sprzedaż: <strong>4.2820 zł</strong></span>
+            </div>
+          </article>
+
+          <!-- Karta: Dolar amerykański (USD) -->
+          <article class="karta-waluty">
+            <div class="karta-naglowek">
+              <div class="karta-waluta-info">
+                <img src="img/flagi/usd.svg" alt="Flaga Stanów Zjednoczonych" class="flaga-ikona" width="28" height="21">
+                <div>
+                  <h3 class="karta-kod">USD</h3>
+                  <span class="karta-pelna-nazwa">Dolar amerykański</span>
+                </div>
+              </div>
+              <span class="odznaka-zmiany odznaka-spadek" aria-label="Spadek o 0.28%">-0.28%</span>
+            </div>
+            <div class="karta-kurs-wartosc">
+              <span class="etykieta-kursu">Kurs średni:</span>
+              <span class="liczba-kursu">3.9120 zł</span>
+            </div>
+            <div class="karta-szczegoly">
+              <span class="szczegol-wiersz">Kupno: <strong>3.8745 zł</strong></span>
+              <span class="szczegol-wiersz">Sprzedaż: <strong>3.9495 zł</strong></span>
+            </div>
+          </article>
+
+          <!-- Karta: Funt szterling (GBP) -->
+          <article class="karta-waluty">
+            <div class="karta-naglowek">
+              <div class="karta-waluta-info">
+                <img src="img/flagi/gbp.svg" alt="Flaga Wielkiej Brytanii" class="flaga-ikona" width="28" height="21">
+                <div>
+                  <h3 class="karta-kod">GBP</h3>
+                  <span class="karta-pelna-nazwa">Funt szterling</span>
+                </div>
+              </div>
+              <span class="odznaka-zmiany odznaka-wzrost" aria-label="Wzrost o 0.08%">+0.08%</span>
+            </div>
+            <div class="karta-kurs-wartosc">
+              <span class="etykieta-kursu">Kurs średni:</span>
+              <span class="liczba-kursu">5.0840 zł</span>
+            </div>
+            <div class="karta-szczegoly">
+              <span class="szczegol-wiersz">Kupno: <strong>5.0350 zł</strong></span>
+              <span class="szczegol-wiersz">Sprzedaż: <strong>5.1330 zł</strong></span>
+            </div>
+          </article>
+
+          <!-- Karta: Frank szwajcarski (CHF) -->
+          <article class="karta-waluty">
+            <div class="karta-naglowek">
+              <div class="karta-waluta-info">
+                <img src="img/flagi/chf.svg" alt="Flaga Szwajcarii" class="flaga-ikona" width="28" height="21">
+                <div>
+                  <h3 class="karta-kod">CHF</h3>
+                  <span class="karta-pelna-nazwa">Frank szwajcarski</span>
+                </div>
+              </div>
+              <span class="odznaka-zmiany odznaka-wzrost" aria-label="Wzrost o 0.22%">+0.22%</span>
+            </div>
+            <div class="karta-kurs-wartosc">
+              <span class="etykieta-kursu">Kurs średni:</span>
+              <span class="liczba-kursu">4.5125 zł</span>
+            </div>
+            <div class="karta-szczegoly">
+              <span class="szczegol-wiersz">Kupno: <strong>4.4690 zł</strong></span>
+              <span class="szczegol-wiersz">Sprzedaż: <strong>4.5560 zł</strong></span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Sekcja robocza: Kalkulator walutowy oraz Mini-wykres -->
+      <section id="sekcja-kalkulator" class="sekcja-robocza" aria-labelledby="tytul-kalkulator">
+        <header class="sekcja-naglowek-blok">
+          <h2 id="tytul-kalkulator" class="sekcja-tytul">Kalkulator przeliczeń walutowych i trend</h2>
+          <p class="sekcja-podtytul">Oblicz wartość wymiany na podstawie kursów historycznych lub bieżących NBP</p>
+        </header>
+
+        <div class="uklad-roboczy-grid">
+          <!-- Moduł kalkulatora -->
+          <div class="panel-kalkulator">
+            <form class="formularz-kalkulator" id="formularz-kalkulatora" onsubmit="return false;">
+              <div class="grupa-pol">
+                <label for="kalk-kwota" class="etykieta-pola">Kwota do przeliczenia:</label>
+                <div class="pole-z-jednostka">
+                  <input type="number" id="kalk-kwota" class="pole-tekstowe" value="100" min="0.01" step="0.01" required placeholder="np. 100">
+                </div>
+              </div>
+
+              <div class="wiersz-dwukolumnowy">
+                <div class="grupa-pol">
+                  <label for="kalk-z" class="etykieta-pola">Z waluty:</label>
+                  <select id="kalk-z" class="pole-wyboru" aria-label="Waluta źródłowa">
+                    <option value="EUR" selected>EUR - Euro</option>
+                    <option value="USD">USD - Dolar amerykański</option>
+                    <option value="GBP">GBP - Funt brytyjski</option>
+                    <option value="CHF">CHF - Frank szwajcarski</option>
+                    <option value="CZK">CZK - Korona czeska</option>
+                    <option value="JPY">JPY - Jen japoński</option>
+                    <option value="PLN">PLN - Złoty polski</option>
+                  </select>
+                </div>
+
+                <div class="grupa-pol">
+                  <label for="kalk-na" class="etykieta-pola">Na walutę:</label>
+                  <select id="kalk-na" class="pole-wyboru" aria-label="Waluta docelowa">
+                    <option value="PLN" selected>PLN - Złoty polski</option>
+                    <option value="EUR">EUR - Euro</option>
+                    <option value="USD">USD - Dolar amerykański</option>
+                    <option value="GBP">GBP - Funt brytyjski</option>
+                    <option value="CHF">CHF - Frank szwajcarski</option>
+                    <option value="CZK">CZK - Korona czeska</option>
+                    <option value="JPY">JPY - Jen japoński</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="wiersz-dwukolumnowy">
+                <div class="grupa-pol">
+                  <label for="kalk-data" class="etykieta-pola">Data notowania:</label>
+                  <input type="date" id="kalk-data" class="pole-tekstowe" value="2026-10-23">
+                </div>
+
+                <div class="grupa-pol">
+                  <label for="kalk-rodzaj" class="etykieta-pola">Rodzaj kursu:</label>
+                  <select id="kalk-rodzaj" class="pole-wyboru">
+                    <option value="sredni" selected>Kurs średni NBP (Tabela A)</option>
+                    <option value="kupno">Kurs kupna NBP (Tabela C)</option>
+                    <option value="sprzedaz">Kurs sprzedaży NBP (Tabela C)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="grupa-akcji">
+                <button type="button" id="kalk-przelicz" class="przycisk przycisk-glowny pelna-szerokosc">
+                  Przelicz kwotę
+                </button>
+              </div>
+
+              <!-- Wynik kalkulatora -->
+              <div class="kalkulator-wynik-kontener" aria-live="polite">
+                <span class="wynik-naglowek">Otrzymana kwota:</span>
+                <div id="kalk-wynik" class="kalk-wynik-liczba">424.15 PLN</div>
+                <small class="wynik-zrodlo">Zastosowany przelicznik: 1 EUR = 4.2415 PLN (kurs średni z 2026-10-23)</small>
+              </div>
+            </form>
+          </div>
+
+          <!-- Moduł mini-wykresu i podsumowania trendu -->
+          <div class="panel-wykres">
+            <figure class="wykres-kontener-karta">
+              <figcaption id="podpis-mini-wykresu" class="wykres-naglowek">
+                <strong>Trend kursu waluty:</strong> Ostatnie 10 notowań
+              </figcaption>
+              <div class="canvas-opakowanie">
+                <canvas id="mini-wykres" aria-labelledby="podpis-mini-wykresu" role="img"></canvas>
+              </div>
+            </figure>
+
+            <div class="wykres-notatka">
+              <p>
+                Wykres odzwierciedla wahania kursu wybranej waluty bazowej w relacji do PLN. Pełną analizę statystyczną, wariancję oraz wskaźniki min/max/średnia sprawdzisz w module analitycznym.
+              </p>
+              <a href="analiza.html" class="link-ze-strzalka">Przejdź do pełnej analizy rynkowej &rarr;</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Sekcja boczna (aside) z informacjami o źródłach i zasadach publikacji NBP -->
+      <aside class="panel-informacyjny" aria-labelledby="tytul-aside">
+        <div class="panel-informacyjny-tresc">
+          <h3 id="tytul-aside" class="aside-tytul">Zasady publikacji kursów Narodowego Banku Polskiego</h3>
+          <p>
+            Dane prezentowane w serwisie pochodzą z publicznych rejestrów i tabel Narodowego Banku Polskiego:
+          </p>
+          <ul class="lista-cech">
+            <li><strong>Tabela A</strong> – kursy średnie walut obcych aktualizowane w każdy dzień roboczy między godziną 11:45 a 12:15.</li>
+            <li><strong>Tabela C</strong> – kursy kupna i sprzedaży walut obcych publikowane w każdy dzień roboczy do godziny 8:15.</li>
+            <li><strong>Dokładność wyliczeń</strong> – kursy średnie wyliczane są z precyzją do 4 miejsc po przecinku (z wyjątkiem wybranych walut przeliczanych za 100 jednostek).</li>
+          </ul>
+        </div>
+      </aside>
+
+    </div>
+  </main>
+
+  <!-- Stopka witryny -->
+  <footer class="stopka-glowna">
+    <div class="kontener stopka-kontener">
+      <div class="stopka-kolumna">
+        <div class="logo-stopka">
+          <img src="img/logo.svg" alt="KursyWalut" width="32" height="32">
+          <span>Kursy<strong>Walut</strong></span>
+        </div>
+        <p class="stopka-opis">
+          Projekt witryny internetowej prezentującej i analizującej zbiór danych kursów walut NBP.
+          Kierunek: Inżynieria i analiza danych | III rok | Rok akademicki 2026/2027.
+        </p>
+      </div>
+
+      <div class="stopka-kolumna">
+        <h4 class="stopka-naglowek">Podstrony serwisu</h4>
+        <ul class="stopka-lista">
+          <li><a href="index.html">Strona główna</a></li>
+          <li><a href="dane.html">Tabela kursów</a></li>
+          <li><a href="analiza.html">Analiza i wykresy</a></li>
+          <li><a href="formularz.html">Alert kursowy</a></li>
+          <li><a href="o-projekcie.html">O projekcie i autorach</a></li>
+        </ul>
+      </div>
+
+      <div class="stopka-kolumna">
+        <h4 class="stopka-naglowek">Źródła danych</h4>
+        <ul class="stopka-lista">
+          <li><a href="https://api.nbp.pl/" target="_blank" rel="noopener noreferrer">Oficjalne API NBP</a></li>
+          <li><a href="https://nbp.pl/statystyka-i-sprawozdawczosc/kursy/" target="_blank" rel="noopener noreferrer">Archiwum kursów NBP</a></li>
+          <li><a href="https://www.chartjs.org/" target="_blank" rel="noopener noreferrer">Biblioteka Chart.js</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="stopka-dol">
+      <div class="kontener stopka-dol-kontener">
+        <p>&copy; 2026 KursyWalut. Projekt zrealizowany w ramach przedmiotu Aplikacje Internetowe.</p>
+        <p class="stopka-technologie">HTML5 &bull; CSS3 &bull; Vanilla JavaScript &bull; Chart.js</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Dołączenie skryptów: biblioteka Chart.js, wspólna obsługa motywu, dane i logika kalkulatora -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/kalkulator.js"></script>
+</body>
+</html>

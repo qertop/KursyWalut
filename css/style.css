@@ -58,3 +58,756 @@
   --kolor-wzrost-tekst: #6ee7a0;
   --kolor-spadek-tekst: #fda4a4;
 }
+
+
+/* ==========================================================
+   Reset i style globalne
+   ========================================================== */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: var(--font);
+  font-size: 16px;
+  scroll-behavior: smooth;
+  color-scheme: light dark;
+}
+
+body {
+  background-color: var(--kolor-tlo);
+  color: var(--kolor-tekst);
+  font: var(--tekst-tresc);
+  line-height: 1.5;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+a {
+  color: var(--kolor-link);
+  text-decoration: none;
+  transition: color 0.2s ease, text-decoration 0.2s ease;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ==========================================================
+   Układ ogólny i kontenery
+   ========================================================== */
+
+.kontener {
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--odstep-4);
+  padding-right: var(--odstep-4);
+}
+
+.glowna-zawartosc {
+  flex: 1 0 auto;
+  padding-top: var(--odstep-5);
+  padding-bottom: var(--odstep-6);
+}
+
+/* ==========================================================
+   Nagłówek witryny i menu nawigacyjne
+   ========================================================== */
+
+.naglowek-glowny {
+  background-color: var(--kolor-powierzchnia);
+  border-bottom: 1px solid var(--kolor-obramowanie);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--cien);
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+
+.naglowek-kontener {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+  gap: var(--odstep-4);
+}
+
+.logo-link {
+  display: flex;
+  align-items: center;
+  gap: var(--odstep-2);
+  color: var(--kolor-tekst);
+  text-decoration: none;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.logo-link:hover {
+  text-decoration: none;
+}
+
+.logo-tekst strong {
+  color: var(--kolor-glowny);
+}
+
+.nawigacja-glowna {
+  display: flex;
+}
+
+.menu-lista {
+  display: flex;
+  list-style: none;
+  align-items: center;
+  gap: var(--odstep-1);
+}
+
+.menu-link {
+  display: inline-block;
+  padding: var(--odstep-2) var(--odstep-3);
+  color: var(--kolor-tekst);
+  font-weight: 500;
+  border-radius: var(--promien);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.menu-link:hover {
+  background-color: rgba(29, 78, 216, 0.08);
+  color: var(--kolor-glowny);
+  text-decoration: none;
+}
+
+.menu-link.aktywny {
+  background-color: var(--kolor-glowny);
+  color: #ffffff;
+}
+
+.akcje-naglowka {
+  display: flex;
+  align-items: center;
+}
+
+.przycisk-motyw {
+  background-color: transparent;
+  color: var(--kolor-tekst);
+  border: 1px solid var(--kolor-obramowanie);
+  border-radius: var(--promien);
+  padding: var(--odstep-2) var(--odstep-3);
+  font: var(--tekst-etykieta);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--odstep-1);
+  transition: all 0.2s ease;
+}
+
+.przycisk-motyw:hover {
+  background-color: rgba(29, 78, 216, 0.06);
+  border-color: var(--kolor-glowny);
+}
+
+.przycisk-motyw:focus-visible {
+  outline: var(--obrys-fokus);
+}
+
+/* ==========================================================
+   Pasek informacyjny (notowania NBP)
+   ========================================================== */
+
+.pasek-info {
+  background-color: var(--kolor-powierzchnia);
+  border-bottom: 1px solid var(--kolor-obramowanie);
+  font: var(--tekst-etykieta);
+  padding: var(--odstep-2) 0;
+}
+
+.pasek-info-kontener {
+  display: flex;
+  align-items: center;
+  gap: var(--odstep-2);
+}
+
+.status-kropka {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--kolor-wzrost);
+  display: inline-block;
+  box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.25);
+  animation: pulsowanie 2s infinite ease-in-out;
+}
+
+@keyframes pulsowanie {
+  0% { transform: scale(0.95); opacity: 0.8; }
+  50% { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(0.95); opacity: 0.8; }
+}
+
+.status-tekst {
+  color: var(--kolor-tekst);
+}
+
+/* ==========================================================
+   Sekcja Hero
+   ========================================================== */
+
+.sekcja-hero {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  align-items: center;
+  gap: var(--odstep-5);
+  padding: var(--odstep-5) 0 var(--odstep-6) 0;
+}
+
+.nadtytul {
+  font: var(--tekst-etykieta);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--kolor-glowny);
+  font-weight: 700;
+  display: block;
+  margin-bottom: var(--odstep-2);
+}
+
+.tytul-glowny {
+  font: var(--tekst-naglowek);
+  color: var(--kolor-tekst);
+  margin-bottom: var(--odstep-3);
+  letter-spacing: -0.02em;
+}
+
+.hero-opis {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--kolor-tekst);
+  opacity: 0.9;
+  margin-bottom: var(--odstep-4);
+  max-width: 560px;
+}
+
+.hero-przyciski {
+  display: flex;
+  gap: var(--odstep-3);
+  flex-wrap: wrap;
+}
+
+.hero-grafika {
+  background-color: var(--kolor-powierzchnia);
+  padding: var(--odstep-3);
+  border-radius: var(--promien);
+  border: 1px solid var(--kolor-obramowanie);
+  box-shadow: var(--cien);
+  text-align: center;
+}
+
+.podpis-grafiki {
+  font: var(--tekst-etykieta);
+  color: var(--kolor-tekst);
+  opacity: 0.75;
+  margin-top: var(--odstep-2);
+}
+
+/* ==========================================================
+   Przyciski
+   ========================================================== */
+
+.przycisk {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--wysokosc-przycisku);
+  padding: 0 var(--odstep-4);
+  font-weight: 600;
+  font-size: 0.95rem;
+  border-radius: var(--promien);
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.przycisk:hover {
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+
+.przycisk:focus-visible {
+  outline: var(--obrys-fokus);
+}
+
+.przycisk-glowny {
+  background-color: var(--kolor-glowny);
+  color: #ffffff;
+}
+
+.przycisk-glowny:hover {
+  background-color: #1e40af;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(29, 78, 216, 0.25);
+}
+
+.przycisk-drugorzedny {
+  background-color: var(--kolor-powierzchnia);
+  color: var(--kolor-tekst);
+  border-color: var(--kolor-obramowanie);
+}
+
+.przycisk-drugorzedny:hover {
+  background-color: rgba(29, 78, 216, 0.05);
+  border-color: var(--kolor-glowny);
+  color: var(--kolor-glowny);
+}
+
+.pelna-szerokosc {
+  width: 100%;
+}
+
+/* ==========================================================
+   Popularne waluty (Karty)
+   ========================================================== */
+
+.sekcja-naglowek-blok {
+  margin-bottom: var(--odstep-4);
+}
+
+.sekcja-tytul {
+  font: var(--tekst-tytul-karty);
+  font-size: 1.75rem;
+  color: var(--kolor-tekst);
+  margin-bottom: var(--odstep-1);
+}
+
+.sekcja-podtytul {
+  color: var(--kolor-tekst);
+  opacity: 0.75;
+  font-size: 0.95rem;
+}
+
+.siatka-kart-walut {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--odstep-4);
+  margin-bottom: var(--odstep-5);
+}
+
+.karta-waluty {
+  background-color: var(--kolor-powierzchnia);
+  border: 1px solid var(--kolor-obramowanie);
+  border-radius: var(--promien);
+  padding: var(--odstep-4);
+  box-shadow: var(--cien);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.karta-waluty:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(20, 33, 59, 0.1);
+  border-color: var(--kolor-glowny);
+}
+
+.karta-naglowek {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--odstep-3);
+}
+
+.karta-waluta-info {
+  display: flex;
+  align-items: center;
+  gap: var(--odstep-2);
+}
+
+.flaga-ikona {
+  border-radius: 3px;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+}
+
+.karta-kod {
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.karta-pelna-nazwa {
+  font: var(--tekst-etykieta);
+  opacity: 0.7;
+}
+
+.odznaka-zmiany {
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 999px;
+}
+
+.odznaka-wzrost {
+  background-color: rgba(22, 163, 74, 0.12);
+  color: var(--kolor-wzrost-tekst);
+}
+
+.odznaka-spadek {
+  background-color: rgba(220, 38, 38, 0.12);
+  color: var(--kolor-spadek-tekst);
+}
+
+.karta-kurs-wartosc {
+  margin-bottom: var(--odstep-3);
+}
+
+.etykieta-kursu {
+  display: block;
+  font: var(--tekst-etykieta);
+  opacity: 0.7;
+  margin-bottom: 2px;
+}
+
+.liczba-kursu {
+  font: var(--tekst-liczba);
+  font-size: 1.85rem;
+  color: var(--kolor-tekst);
+  display: block;
+}
+
+.karta-szczegoly {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid var(--kolor-obramowanie);
+  padding-top: var(--odstep-2);
+  font: var(--tekst-etykieta);
+  opacity: 0.85;
+}
+
+/* ==========================================================
+   Układ roboczy: Kalkulator + Wykres
+   ========================================================== */
+
+.sekcja-robocza {
+  margin-top: var(--odstep-5);
+  margin-bottom: var(--odstep-6);
+}
+
+.uklad-roboczy-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--odstep-4);
+  align-items: start;
+}
+
+.panel-kalkulator,
+.panel-wykres {
+  background-color: var(--kolor-powierzchnia);
+  border: 1px solid var(--kolor-obramowanie);
+  border-radius: var(--promien);
+  padding: var(--odstep-4);
+  box-shadow: var(--cien);
+}
+
+.formularz-kalkulator {
+  display: flex;
+  flex-direction: column;
+  gap: var(--odstep-3);
+}
+
+.grupa-pol {
+  display: flex;
+  flex-direction: column;
+  gap: var(--odstep-1);
+}
+
+.etykieta-pola {
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--kolor-tekst);
+}
+
+.pole-tekstowe,
+.pole-wyboru {
+  height: var(--wysokosc-pola);
+  padding: 0 var(--odstep-3);
+  background-color: var(--kolor-powierzchnia);
+  color: var(--kolor-tekst);
+  border: 1px solid var(--kolor-obramowanie);
+  border-radius: var(--promien);
+  font-family: var(--font);
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pole-tekstowe:focus,
+.pole-wyboru:focus {
+  border-color: var(--kolor-glowny);
+  outline: var(--obrys-fokus);
+}
+
+.wiersz-dwukolumnowy {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--odstep-3);
+}
+
+.kalkulator-wynik-kontener {
+  margin-top: var(--odstep-2);
+  padding: var(--odstep-3);
+  background-color: rgba(29, 78, 216, 0.05);
+  border: 1px solid rgba(29, 78, 216, 0.2);
+  border-radius: var(--promien);
+  text-align: center;
+}
+
+.wynik-naglowek {
+  font: var(--tekst-etykieta);
+  text-transform: uppercase;
+  color: var(--kolor-glowny);
+  font-weight: 700;
+}
+
+.kalk-wynik-liczba {
+  font: var(--tekst-liczba);
+  color: var(--kolor-glowny);
+  margin: var(--odstep-1) 0;
+}
+
+.wynik-zrodlo {
+  font-size: 0.78rem;
+  opacity: 0.75;
+}
+
+/* Moduł mini-wykresu */
+.wykres-kontener-karta {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--odstep-2);
+}
+
+.wykres-naglowek {
+  font-size: 0.95rem;
+  color: var(--kolor-tekst);
+}
+
+.canvas-opakowanie {
+  position: relative;
+  width: 100%;
+  height: 280px;
+}
+
+.wykres-notatka {
+  margin-top: var(--odstep-3);
+  padding-top: var(--odstep-3);
+  border-top: 1px solid var(--kolor-obramowanie);
+  font-size: 0.88rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--odstep-2);
+}
+
+.link-ze-strzalka {
+  font-weight: 600;
+  color: var(--kolor-link);
+}
+
+/* ==========================================================
+   Panel informacyjny (Aside)
+   ========================================================== */
+
+.panel-informacyjny {
+  background-color: var(--kolor-powierzchnia);
+  border: 1px solid var(--kolor-obramowanie);
+  border-left: 4px solid var(--kolor-akcent);
+  border-radius: var(--promien);
+  padding: var(--odstep-4);
+  box-shadow: var(--cien);
+  margin-bottom: var(--odstep-5);
+}
+
+.aside-tytul {
+  font: var(--tekst-tytul-karty);
+  font-size: 1.25rem;
+  margin-bottom: var(--odstep-2);
+  color: var(--kolor-tekst);
+}
+
+.lista-cech {
+  margin-top: var(--odstep-2);
+  margin-left: var(--odstep-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--odstep-1);
+}
+
+/* ==========================================================
+   Stopka witryny
+   ========================================================== */
+
+.stopka-glowna {
+  background-color: var(--kolor-powierzchnia);
+  border-top: 1px solid var(--kolor-obramowanie);
+  margin-top: auto;
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+
+.stopka-kontener {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: var(--odstep-5);
+  padding-top: var(--odstep-5);
+  padding-bottom: var(--odstep-5);
+}
+
+.logo-stopka {
+  display: flex;
+  align-items: center;
+  gap: var(--odstep-2);
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: var(--odstep-2);
+}
+
+.logo-stopka strong {
+  color: var(--kolor-glowny);
+}
+
+.stopka-opis {
+  font-size: 0.88rem;
+  opacity: 0.75;
+  line-height: 1.6;
+  max-width: 440px;
+}
+
+.stopka-naglowek {
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-bottom: var(--odstep-3);
+  color: var(--kolor-tekst);
+}
+
+.stopka-lista {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--odstep-2);
+  font-size: 0.88rem;
+}
+
+.stopka-lista a {
+  color: var(--kolor-tekst);
+  opacity: 0.8;
+}
+
+.stopka-lista a:hover {
+  color: var(--kolor-link);
+  opacity: 1;
+}
+
+.stopka-dol {
+  border-top: 1px solid var(--kolor-obramowanie);
+  padding: var(--odstep-3) 0;
+  font: var(--tekst-etykieta);
+  opacity: 0.75;
+}
+
+.stopka-dol-kontener {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ==========================================================
+   Responsywność (Zgodnie z wymaganiem: min. 2 reguły @media)
+   ========================================================== */
+
+@media (max-width: 992px) {
+  .sekcja-hero {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .hero-opis {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero-przyciski {
+    justify-content: center;
+  }
+
+  .hero-grafika {
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .siatka-kart-walut {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .uklad-roboczy-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stopka-kontener {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .naglowek-kontener {
+    flex-wrap: wrap;
+    height: auto;
+    padding-top: var(--odstep-2);
+    padding-bottom: var(--odstep-2);
+  }
+
+  .nawigacja-glowna {
+    order: 3;
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .menu-lista {
+    width: 100%;
+    justify-content: flex-start;
+    padding-bottom: var(--odstep-1);
+  }
+
+  .menu-link {
+    white-space: nowrap;
+    padding: var(--odstep-1) var(--odstep-2);
+    font-size: 0.85rem;
+  }
+
+  .tytul-glowny {
+    font-size: 2rem;
+    line-height: 1.2;
+  }
+
+  .siatka-kart-walut {
+    grid-template-columns: 1fr;
+  }
+
+  .wiersz-dwukolumnowy {
+    grid-template-columns: 1fr;
+  }
+
+  .stopka-kontener {
+    grid-template-columns: 1fr;
+  }
+
+  .stopka-dol-kontener {
+    flex-direction: column;
+    gap: var(--odstep-2);
+    text-align: center;
+  }
+}
