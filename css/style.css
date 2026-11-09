@@ -1249,3 +1249,466 @@ img {
     align-items: center;
   }
 }
+
+
+/* ==========================================================
+   Style podstrony analitycznej i dashboardu (analiza.html)
+   ========================================================== */
+
+/* Pasek kontrolny analizy */
+.siatka-kontroli-analizy {
+  display: grid;
+  grid-template-columns: 2fr 1.5fr 2fr 1.5fr;
+  gap: var(--odstep-3);
+  align-items: end;
+}
+
+.grupa-przyciskow-zakresu {
+  display: flex;
+  background-color: var(--kolor-tlo);
+  border: 1px solid var(--kolor-obramowanie);
+  border-radius: var(--promien);
+  padding: 3px;
+  gap: 2px;
+  height: var(--wysokosc-pola);
+  align-items: center;
+}
+
+.przycisk-zakres {
+  flex: 1;
+  height: 100%;
+  border: none;
+  background-color: transparent;
+  color: var(--kolor-tekst);
+  font: var(--tekst-etykieta);
+  font-weight: 600;
+  border-radius: calc(var(--promien) - 3px);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.przycisk-zakres:hover {
+  background-color: rgba(29, 78, 216, 0.08);
+  color: var(--kolor-glowny);
+}
+
+.przycisk-zakres.aktywny {
+  background-color: var(--kolor-glowny);
+  color: #ffffff;
+  box-shadow: 0 1px 4px rgba(29, 78, 216, 0.3);
+}
+
+.przycisk-wyrownany {
+  display: flex;
+  align-items: flex-end;
+}
+
+/* Sekcja wskaźników KPI */
+.sekcja-wskazniki {
+  margin-bottom: var(--odstep-5);
+}
+
+.siatka-kart-wskaznikow {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--odstep-3);
+}
+
+.karta-wskaznika {
+  background-color: var(--kolor-powierzchnia);
+  border: 1px solid var(--kolor-obramowanie);
+  border-radius: var(--promien);
+  padding: var(--odstep-3);
+  box-shadow: var(--cien);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 140px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.karta-wskaznika:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(20, 33, 59, 0.08);
+  border-color: var(--kolor-glowny);
+}
+
+.karta-wskaznika-naglowek {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--odstep-1);
+}
+
+.wskaznik-etykieta {
+  font: var(--tekst-etykieta);
+  font-weight: 600;
+  opacity: 0.75;
+  color: var(--kolor-tekst);
+}
+
+.ikona-wskaznika {
+  font-size: 0.95rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+}
+
+.ikona-min {
+  color: var(--kolor-spadek);
+  background-color: rgba(220, 38, 38, 0.1);
+}
+
+.ikona-max {
+  color: var(--kolor-wzrost);
+  background-color: rgba(22, 163, 74, 0.1);
+}
+
+.ikona-srednia {
+  color: var(--kolor-glowny);
+  background-color: rgba(29, 78, 216, 0.1);
+}
+
+.ikona-rozstep {
+  color: var(--kolor-akcent);
+  background-color: rgba(14, 165, 164, 0.1);
+}
+
+.wskaznik-wartosc-blok {
+  margin: var(--odstep-1) 0;
+}
+
+.liczba-wskaznika {
+  font: var(--tekst-liczba);
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: var(--kolor-tekst);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+.kolor-wzrost {
+  color: var(--kolor-wzrost-tekst);
+}
+
+.kolor-spadek {
+  color: var(--kolor-spadek-tekst);
+}
+
+.wskaznik-stopka {
+  border-top: 1px solid var(--kolor-obramowanie);
+  padding-top: var(--odstep-1);
+}
+
+.wskaznik-opis {
+  font-size: 0.76rem;
+  opacity: 0.7;
+  color: var(--kolor-tekst);
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Sekcja głównego wykresu */
+.sekcja-wykres-glowny {
+  margin-bottom: var(--odstep-5);
+}
+
+.karta-wykresu-duza {
+  background-color: var(--kolor-powierzchnia);
+  border: 1px solid var(--kolor-obramowanie);
+  border-radius: var(--promien);
+  padding: var(--odstep-4);
+  box-shadow: var(--cien);
+}
+
+.karta-wykresu-naglowek {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--kolor-obramowanie);
+  padding-bottom: var(--odstep-3);
+  margin-bottom: var(--odstep-4);
+  flex-wrap: wrap;
+  gap: var(--odstep-3);
+}
+
+.wykres-glowny-tytul {
+  font: var(--tekst-tytul-karty);
+  font-size: 1.35rem;
+  color: var(--kolor-tekst);
+  margin-bottom: 2px;
+}
+
+.wykres-glowny-podtytul {
+  font: var(--tekst-etykieta);
+  opacity: 0.7;
+}
+
+.belka-typu-wykresu {
+  display: flex;
+  gap: var(--odstep-1);
+}
+
+.przycisk-typ-wykresu {
+  background-color: transparent;
+  border: 1px solid var(--kolor-obramowanie);
+  color: var(--kolor-tekst);
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: var(--promien);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.przycisk-typ-wykresu:hover {
+  border-color: var(--kolor-glowny);
+  color: var(--kolor-glowny);
+}
+
+.przycisk-typ-wykresu.aktywny {
+  background-color: var(--kolor-glowny);
+  border-color: var(--kolor-glowny);
+  color: #ffffff;
+}
+
+.kontener-canvas-duzy {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.canvas-opakowanie-glowny {
+  position: relative;
+  width: 100%;
+  height: 380px;
+}
+
+.podpis-wykresu-glowny {
+  margin-top: var(--odstep-3);
+  font: var(--tekst-etykieta);
+  opacity: 0.75;
+  text-align: center;
+}
+
+/* Siatka modułów zaawansowanych: Ranking + Porównywarka */
+.siatka-zaawansowana {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--odstep-4);
+  margin-bottom: var(--odstep-5);
+}
+
+.panel-karta-zaawansowana {
+  background-color: var(--kolor-powierzchnia);
+  border: 1px solid var(--kolor-obramowanie);
+  border-radius: var(--promien);
+  padding: var(--odstep-4);
+  box-shadow: var(--cien);
+  display: flex;
+  flex-direction: column;
+}
+
+.panel-naglowek-wewnetrzny {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 1px solid var(--kolor-obramowanie);
+  padding-bottom: var(--odstep-3);
+  margin-bottom: var(--odstep-3);
+  flex-wrap: wrap;
+  gap: var(--odstep-1);
+}
+
+.sekcja-tytul-maly {
+  font: var(--tekst-tytul-karty);
+  font-size: 1.15rem;
+  color: var(--kolor-tekst);
+}
+
+.etykieta-podreczna {
+  font: var(--tekst-etykieta);
+  opacity: 0.7;
+}
+
+/* Moduł rankingu dynamiki */
+.dwie-kolumny-rankingu {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--odstep-3);
+}
+
+.naglowek-kolumny-rankingu {
+  font-size: 0.88rem;
+  font-weight: 700;
+  margin-bottom: var(--odstep-2);
+}
+
+.tekst-sukces {
+  color: var(--kolor-wzrost-tekst);
+}
+
+.tekst-ostrzezenie {
+  color: var(--kolor-spadek-tekst);
+}
+
+.lista-rankingu {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--odstep-2);
+}
+
+.element-rankingu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 10px;
+  background-color: var(--kolor-tlo);
+  border: 1px solid var(--kolor-obramowanie);
+  border-radius: 8px;
+  transition: transform 0.15s ease;
+}
+
+.element-rankingu:hover {
+  transform: translateX(2px);
+}
+
+.ranking-waluta {
+  display: flex;
+  align-items: center;
+  gap: var(--odstep-2);
+}
+
+.kod-rankingu {
+  font-weight: 700;
+  font-size: 0.92rem;
+}
+
+.nazwa-rankingu {
+  font-size: 0.78rem;
+  opacity: 0.7;
+  display: none;
+}
+
+.ranking-wynik {
+  display: flex;
+  align-items: center;
+  gap: var(--odstep-2);
+}
+
+.kurs-rankingu {
+  font-size: 0.88rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Moduł porównywarki dwóch walut */
+.formularz-porownania {
+  display: flex;
+  flex-direction: column;
+  gap: var(--odstep-3);
+}
+
+.wiersz-wyboru-par {
+  display: flex;
+  align-items: center;
+  gap: var(--odstep-2);
+}
+
+.pole-pary {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.separator-vs {
+  font-weight: 800;
+  font-size: 0.9rem;
+  color: var(--kolor-glowny);
+  padding: 0 4px;
+  margin-top: 18px;
+}
+
+.tabela-porownania-kontener {
+  overflow-x: auto;
+}
+
+.tabela-porownania {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+.tabela-porownania th,
+.tabela-porownania td {
+  padding: 9px var(--odstep-2);
+  border-bottom: 1px solid var(--kolor-obramowanie);
+}
+
+.tabela-porownania th {
+  background-color: rgba(29, 78, 216, 0.03);
+  font-weight: 600;
+  text-align: left;
+}
+
+/* ==========================================================
+   Responsywność dla modułu analitycznego
+   ========================================================== */
+
+@media (max-width: 1100px) {
+  .siatka-kart-wskaznikow {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 992px) {
+  .siatka-kontroli-analizy {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .siatka-zaawansowana {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .siatka-kart-wskaznikow {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .dwie-kolumny-rankingu {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .siatka-kontroli-analizy {
+    grid-template-columns: 1fr;
+  }
+
+  .siatka-kart-wskaznikow {
+    grid-template-columns: 1fr;
+  }
+
+  .canvas-opakowanie-glowny {
+    height: 280px;
+  }
+
+  .karta-wykresu-naglowek {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .belka-typu-wykresu {
+    width: 100%;
+    overflow-x: auto;
+  }
+}

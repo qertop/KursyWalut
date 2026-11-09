@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Dashboard analizy kursów walut NBP – interaktywne wykresy Chart.js, wskaźniki statystyczne (min, max, średnia, zmiana), ranking TOP 5 i porównywarka walut.">
+  <title>Analiza Rynku i Wykresy Kursów Walut NBP | KursyWalut</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Główny nagłówek witryny z logo, nawigacją i przełącznikiem motywu -->
+  <header class="naglowek-glowny">
+    <div class="kontener naglowek-kontener">
+      <a href="index.html" class="logo-link" aria-label="Strona główna KursyWalut">
+        <img src="img/logo.svg" alt="Logo KursyWalut" class="logo-obrazek" width="40" height="40">
+        <span class="logo-tekst">Kursy<strong>Walut</strong></span>
+      </a>
+
+      <nav class="nawigacja-glowna" aria-label="Główne menu nawigacyjne">
+        <ul class="menu-lista">
+          <li class="menu-element"><a href="index.html" class="menu-link">Strona główna</a></li>
+          <li class="menu-element"><a href="dane.html" class="menu-link">Tabela kursów</a></li>
+          <li class="menu-element"><a href="analiza.html" class="menu-link aktywny" aria-current="page">Analiza i wykresy</a></li>
+          <li class="menu-element"><a href="formularz.html" class="menu-link">Alert kursowy</a></li>
+          <li class="menu-element"><a href="o-projekcie.html" class="menu-link">O projekcie</a></li>
+        </ul>
+      </nav>
+
+      <div class="akcje-naglowka">
+        <button type="button" id="przelacznik-motywu" class="przycisk-motyw" aria-label="Przełącz motyw jasny / ciemny">
+          🌙 Motyw ciemny
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Pasek informacyjny z datą notowań NBP -->
+  <div class="pasek-info" role="region" aria-label="Informacja o aktualności notowań">
+    <div class="kontener pasek-info-kontener">
+      <span class="status-kropka" aria-hidden="true"></span>
+      <p class="status-tekst">
+        Oficjalne notowania Narodowego Banku Polskiego (Tabela A i C) | Ostatnia aktualizacja danych: <strong>9 listopada 2026 r.</strong>
+      </p>
+    </div>
+  </div>
+
+  <!-- Główna zawartość podstrony analitycznej -->
+  <main class="glowna-zawartosc">
+    <div class="kontener">
+
+      <!-- Okruszki chleba (breadcrumbs) -->
+      <nav class="okruszki" aria-label="Ścieżka powrotu">
+        <ol class="okruszki-lista">
+          <li><a href="index.html">Strona główna</a></li>
+          <li aria-current="page">Analiza i wykresy</li>
+        </ol>
+      </nav>
+
+      <!-- Nagłówek podstrony -->
+      <header class="podstrona-naglowek">
+        <span class="nadtytul">Dashboard analityczny i statystyki rynku</span>
+        <h1 class="tytul-podstrony">Analiza wahań i trendy kursów walut NBP</h1>
+        <p class="podstrona-opis">
+          Kompleksowy moduł analizy ilościowej notowań walutowych. Poznaj kluczowe wskaźniki statystyczne (minimum, maksimum, średnia arytmetyczna, rozstęp), śledź interaktywne wykresy szeregów czasowych, badaj rankingi dynamiki TOP 5 oraz porównuj wybrane waluty.
+        </p>
+      </header>
+
+      <!-- Pasek narzędziowy konfiguracji analizy (Toolbar) -->
+      <section class="panel-filtrow-kontener" aria-labelledby="naglowek-konfiguracji">
+        <div class="panel-filtrow-naglowek">
+          <h2 id="naglowek-konfiguracji" class="panel-filtrow-tytul">Parametry wizualizacji i okres analizy</h2>
+          <span class="podpowiedz-filtrow">Wybierz parę walutową oraz horyzont czasowy</span>
+        </div>
+
+        <form class="formularz-analizy" id="formularz-analizy" onsubmit="return false;">
+          <div class="siatka-kontroli-analizy">
+            <!-- Waluta do analizy -->
+            <div class="grupa-filtra">
+              <label for="analiza-waluta" class="etykieta-filtra">Analizowana waluta bazowa:</label>
+              <select id="analiza-waluta" class="pole-wyboru" aria-label="Wybierz walutę do analizy">
+                <option value="EUR" selected>EUR - Euro (strefa euro)</option>
+                <option value="USD">USD - Dolar amerykański (USA)</option>
+                <option value="GBP">GBP - Funt szterling (Wielka Brytania)</option>
+                <option value="CHF">CHF - Frank szwajcarski (Szwajcaria)</option>
+                <option value="NOK">NOK - Korona norweska (Norwegia)</option>
+                <option value="SEK">SEK - Korona szwedzka (Szwecja)</option>
+                <option value="CZK">CZK - Korona czeska (Czechy)</option>
+                <option value="HUF">HUF - Forint węgierski (Węgry)</option>
+                <option value="JPY">JPY - Jen japoński (Japonia)</option>
+                <option value="DKK">DKK - Korona duńska (Dania)</option>
+                <option value="CAD">CAD - Dolar kanadyjski (Kanada)</option>
+                <option value="AUD">AUD - Dolar australijski (Australia)</option>
+              </select>
+            </div>
+
+            <!-- Rodzaj kursu -->
+            <div class="grupa-filtra">
+              <label for="analiza-rodzaj" class="etykieta-filtra">Rodzaj notowania:</label>
+              <select id="analiza-rodzaj" class="pole-wyboru">
+                <option value="sredni" selected>Kurs średni NBP (Tabela A)</option>
+                <option value="kupno">Kurs kupna (Tabela C)</option>
+                <option value="sprzedaz">Kurs sprzedaży (Tabela C)</option>
+                <option value="spread">Spread walutowy (Tabela C)</option>
+              </select>
+            </div>
+
+            <!-- Zakres czasu / Horyzont -->
+            <div class="grupa-filtra">
+              <span class="etykieta-filtra">Horyzont czasowy:</span>
+              <div class="grupa-przyciskow-zakresu" role="group" aria-label="Wybierz zakres czasu wykresu">
+                <button type="button" class="przycisk-zakres" data-zakres="7">7 dni</button>
+                <button type="button" class="przycisk-zakres aktywny" data-zakres="30" aria-pressed="true">30 dni</button>
+                <button type="button" class="przycisk-zakres" data-zakres="90">90 dni</button>
+                <button type="button" class="przycisk-zakres" data-zakres="365">1 rok</button>
+              </div>
+            </div>
+
+            <!-- Przycisk raportu -->
+            <div class="grupa-filtra przycisk-wyrownany">
+              <button type="button" class="przycisk przycisk-glowny pelna-szerokosc" id="przycisk-generuj-raport">
+                Aktualizuj analizę
+              </button>
+            </div>
+          </div>
+        </form>
+      </section>
+
+      <!-- Sekcja KPI: 4 kluczowe wskaźniki (zgodne z CONTRIBUTING.md i wytycznymi) -->
+      <section class="sekcja-wskazniki" aria-labelledby="naglowek-wskaznikow">
+        <header class="sekcja-naglowek-blok">
+          <h2 id="naglowek-wskaznikow" class="sekcja-tytul">Kluczowe wskaźniki statystyczne (EUR / PLN)</h2>
+          <p class="sekcja-podtytul">Podsumowanie rozkładu wartości w wybranym okresie 30 sesji notowań</p>
+        </header>
+
+        <div class="siatka-kart-wskaznikow">
+          <!-- Wskaźnik: Kurs minimalny -->
+          <article class="karta-wskaznika">
+            <div class="karta-wskaznika-naglowek">
+              <span class="wskaznik-etykieta">Kurs minimalny (Min)</span>
+              <span class="ikona-wskaznika ikona-min" aria-hidden="true">&#x25BC;</span>
+            </div>
+            <div class="wskaznik-wartosc-blok">
+              <span id="wskaznik-min" class="liczba-wskaznika">4.2810 zł</span>
+            </div>
+            <div class="wskaznik-stopka">
+              <span class="wskaznik-opis">Najniższe zamknięcie (14.10.2026 r.)</span>
+            </div>
+          </article>
+
+          <!-- Wskaźnik: Kurs maksymalny -->
+          <article class="karta-wskaznika">
+            <div class="karta-wskaznika-naglowek">
+              <span class="wskaznik-etykieta">Kurs maksymalny (Max)</span>
+              <span class="ikona-wskaznika ikona-max" aria-hidden="true">&#x25B2;</span>
+            </div>
+            <div class="wskaznik-wartosc-blok">
+              <span id="wskaznik-max" class="liczba-wskaznika">4.3995 zł</span>
+            </div>
+            <div class="wskaznik-stopka">
+              <span class="wskaznik-opis">Najwyższe zamknięcie (04.11.2026 r.)</span>
+            </div>
+          </article>
+
+          <!-- Wskaźnik: Kurs średni -->
+          <article class="karta-wskaznika">
+            <div class="karta-wskaznika-naglowek">
+              <span class="wskaznik-etykieta">Średnia arytmetyczna (&mu;)</span>
+              <span class="ikona-wskaznika ikona-srednia" aria-hidden="true">&#x2248;</span>
+            </div>
+            <div class="wskaznik-wartosc-blok">
+              <span id="wskaznik-srednia" class="liczba-wskaznika">4.3412 zł</span>
+            </div>
+            <div class="wskaznik-stopka">
+              <span class="wskaznik-opis">Średni kurs z 30 notowań sesyjnych</span>
+            </div>
+          </article>
+
+          <!-- Wskaźnik: Zmiana w okresie -->
+          <article class="karta-wskaznika">
+            <div class="karta-wskaznika-naglowek">
+              <span class="wskaznik-etykieta">Zmiana w okresie (&Delta;)</span>
+              <span class="odznaka-zmiany odznaka-wzrost">+2.48%</span>
+            </div>
+            <div class="wskaznik-wartosc-blok">
+              <span id="wskaznik-zmiana" class="liczba-wskaznika kolor-wzrost">+0.1063 zł</span>
+            </div>
+            <div class="wskaznik-stopka">
+              <span class="wskaznik-opis">Osłabienie PLN względem EUR</span>
+            </div>
+          </article>
+
+          <!-- Wskaźnik 5: Amplituda / Rozstęp -->
+          <article class="karta-wskaznika">
+            <div class="karta-wskaznika-naglowek">
+              <span class="wskaznik-etykieta">Rozstęp notowań (Max - Min)</span>
+              <span class="ikona-wskaznika ikona-rozstep" aria-hidden="true">&#x2195;</span>
+            </div>
+            <div class="wskaznik-wartosc-blok">
+              <span id="wskaznik-rozstep" class="liczba-wskaznika">0.1185 zł</span>
+            </div>
+            <div class="wskaznik-stopka">
+              <span class="wskaznik-opis">Zmienność rynkowa: 2.76%</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Sekcja wykresu głównego (Chart.js) -->
+      <section class="sekcja-wykres-glowny" aria-labelledby="tytul-karty-wykresu">
+        <div class="karta-wykresu-duza">
+          <header class="karta-wykresu-naglowek">
+            <div>
+              <h2 id="tytul-karty-wykresu" class="wykres-glowny-tytul">Wykres szeregu czasowego: EUR / PLN</h2>
+              <span class="wykres-glowny-podtytul">Oficjalne kursy średnie NBP (Tabela A) za okres 10.10.2026 – 09.11.2026 r.</span>
+            </div>
+
+            <!-- Przełączniki typu wykresu -->
+            <div class="belka-typu-wykresu" role="group" aria-label="Wybierz typ prezentacji wykresu">
+              <button type="button" class="przycisk-typ-wykresu aktywny" data-typ="line">Wykres liniowy</button>
+              <button type="button" class="przycisk-typ-wykresu" data-typ="area">Obszarowy</button>
+              <button type="button" class="przycisk-typ-wykresu" data-typ="bar">Słupkowy</button>
+            </div>
+          </header>
+
+          <figure class="kontener-canvas-duzy">
+            <div class="canvas-opakowanie-glowny">
+              <!-- Element canvas z id wymaganym w CONTRIBUTING.md -->
+              <canvas id="wykres-glowny" aria-labelledby="tytul-karty-wykresu" role="img"></canvas>
+            </div>
+            <figcaption class="podpis-wykresu-glowny">
+              Wizualizacja dynamiki notowań z wykorzystaniem biblioteki Chart.js. Oś pozioma przedstawia kolejne dni robocze sesji NBP, oś pionowa kurs w PLN.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- Moduły zaawansowane: Ranking TOP 5 oraz Porównywarka dwóch walut -->
+      <div class="siatka-zaawansowana">
+        
+        <!-- Moduł 1: Ranking TOP 5 (Największe wahania i siła walut) -->
+        <section class="panel-karta-zaawansowana" aria-labelledby="tytul-ranking">
+          <header class="panel-naglowek-wewnetrzny">
+            <h2 id="tytul-ranking" class="sekcja-tytul-maly">Ranking dynamiki walut (24h)</h2>
+            <span class="etykieta-podreczna">Największe ruchy względem PLN</span>
+          </header>
+
+          <div class="dwie-kolumny-rankingu">
+            <!-- Kolumna: TOP 3 Wzrosty -->
+            <div class="kolumna-rankingu">
+              <h3 class="naglowek-kolumny-rankingu tekst-sukces">🚀 Największe wzrosty (Top Gainers)</h3>
+              <ol class="lista-rankingu">
+                <li class="element-rankingu">
+                  <div class="ranking-waluta">
+                    <img src="img/flagi/nok.svg" alt="Flaga Norwegii" class="flaga-ikona" width="22" height="16">
+                    <span class="kod-rankingu">NOK</span>
+                    <span class="nazwa-rankingu">Korona norweska</span>
+                  </div>
+                  <div class="ranking-wynik">
+                    <strong class="kurs-rankingu">0.4179 zł</strong>
+                    <span class="odznaka-zmiany odznaka-wzrost">+0.45%</span>
+                  </div>
+                </li>
+
+                <li class="element-rankingu">
+                  <div class="ranking-waluta">
+                    <img src="img/flagi/chf.svg" alt="Flaga Szwajcarii" class="flaga-ikona" width="22" height="16">
+                    <span class="kod-rankingu">CHF</span>
+                    <span class="nazwa-rankingu">Frank szwajcarski</span>
+                  </div>
+                  <div class="ranking-wynik">
+                    <strong class="kurs-rankingu">4.7925 zł</strong>
+                    <span class="odznaka-zmiany odznaka-wzrost">+0.31%</span>
+                  </div>
+                </li>
+
+                <li class="element-rankingu">
+                  <div class="ranking-waluta">
+                    <img src="img/flagi/aud.svg" alt="Flaga Australii" class="flaga-ikona" width="22" height="16">
+                    <span class="kod-rankingu">AUD</span>
+                    <span class="nazwa-rankingu">Dolar australijski</span>
+                  </div>
+                  <div class="ranking-wynik">
+                    <strong class="kurs-rankingu">2.5930 zł</strong>
+                    <span class="odznaka-zmiany odznaka-wzrost">+0.22%</span>
+                  </div>
+                </li>
+              </ol>
+            </div>
+
+            <!-- Kolumna: TOP 3 Spadki -->
+            <div class="kolumna-rankingu">
+              <h3 class="naglowek-kolumny-rankingu tekst-ostrzezenie">📉 Największe spadki (Top Losers)</h3>
+              <ol class="lista-rankingu">
+                <li class="element-rankingu">
+                  <div class="ranking-waluta">
+                    <img src="img/flagi/try.svg" alt="Flaga Turcji" class="flaga-ikona" width="22" height="16">
+                    <span class="kod-rankingu">TRY</span>
+                    <span class="nazwa-rankingu">Lira turecka</span>
+                  </div>
+                  <div class="ranking-wynik">
+                    <strong class="kurs-rankingu">0.1142 zł</strong>
+                    <span class="odznaka-zmiany odznaka-spadek">-0.65%</span>
+                  </div>
+                </li>
+
+                <li class="element-rankingu">
+                  <div class="ranking-waluta">
+                    <img src="img/flagi/huf.svg" alt="Flaga Węgier" class="flaga-ikona" width="22" height="16">
+                    <span class="kod-rankingu">100 HUF</span>
+                    <span class="nazwa-rankingu">Forint węgierski</span>
+                  </div>
+                  <div class="ranking-wynik">
+                    <strong class="kurs-rankingu">1.2080 zł</strong>
+                    <span class="odznaka-zmiany odznaka-spadek">-0.32%</span>
+                  </div>
+                </li>
+
+                <li class="element-rankingu">
+                  <div class="ranking-waluta">
+                    <img src="img/flagi/usd.svg" alt="Flaga Stanów Zjednoczonych" class="flaga-ikona" width="22" height="16">
+                    <span class="kod-rankingu">USD</span>
+                    <span class="nazwa-rankingu">Dolar amerykański</span>
+                  </div>
+                  <div class="ranking-wynik">
+                    <strong class="kurs-rankingu">3.9199 zł</strong>
+                    <span class="odznaka-zmiany odznaka-spadek">-0.25%</span>
+                  </div>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </section>
+
+        <!-- Moduł 2: Porównywarka dwóch walut -->
+        <section class="panel-karta-zaawansowana" aria-labelledby="tytul-porownywarki">
+          <header class="panel-naglowek-wewnetrzny">
+            <h2 id="tytul-porownywarki" class="sekcja-tytul-maly">Porównywarka dwóch par walutowych</h2>
+            <span class="etykieta-podreczna">Zestawienie parametrów rynkowych</span>
+          </header>
+
+          <form class="formularz-porownania" id="formularz-porownania" onsubmit="return false;">
+            <div class="wiersz-wyboru-par">
+              <div class="pole-pary">
+                <label for="porownaj-waluta-a" class="etykieta-filtra">Waluta A:</label>
+                <select id="porownaj-waluta-a" class="pole-wyboru">
+                  <option value="EUR" selected>EUR - Euro</option>
+                  <option value="USD">USD - Dolar amerykański</option>
+                  <option value="GBP">GBP - Funt szterling</option>
+                  <option value="CHF">CHF - Frank szwajcarski</option>
+                  <option value="NOK">NOK - Korona norweska</option>
+                </select>
+              </div>
+
+              <span class="separator-vs" aria-hidden="true">VS</span>
+
+              <div class="pole-pary">
+                <label for="porownaj-waluta-b" class="etykieta-filtra">Waluta B:</label>
+                <select id="porownaj-waluta-b" class="pole-wyboru">
+                  <option value="USD" selected>USD - Dolar amerykański</option>
+                  <option value="EUR">EUR - Euro</option>
+                  <option value="GBP">GBP - Funt szterling</option>
+                  <option value="CHF">CHF - Frank szwajcarski</option>
+                  <option value="NOK">NOK - Korona norweska</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Tabela porównawcza parametrów -->
+            <div class="tabela-porownania-kontener">
+              <table class="tabela-porownania" aria-label="Tabela porównania dwóch wybranych walut">
+                <thead>
+                  <tr>
+                    <th scope="col">Parametr statystyczny</th>
+                    <th scope="col" class="kolumna-liczba">EUR</th>
+                    <th scope="col" class="kolumna-liczba">USD</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Kurs bieżący NBP</td>
+                    <td class="komorka-liczba"><strong>4.3873 zł</strong></td>
+                    <td class="komorka-liczba"><strong>3.9199 zł</strong></td>
+                  </tr>
+                  <tr>
+                    <td>Średnia z 30 sesji</td>
+                    <td class="komorka-liczba">4.3412 zł</td>
+                    <td class="komorka-liczba">3.9350 zł</td>
+                  </tr>
+                  <tr>
+                    <td>Zmienność 30d (Rozstęp)</td>
+                    <td class="komorka-liczba">0.1185 zł (2.7%)</td>
+                    <td class="komorka-liczba">0.0810 zł (2.0%)</td>
+                  </tr>
+                  <tr>
+                    <td>Średni spread Tabela C</td>
+                    <td class="komorka-liczba">0.0878 zł</td>
+                    <td class="komorka-liczba">0.0784 zł</td>
+                  </tr>
+                  <tr>
+                    <td>Dynamika miesięczna</td>
+                    <td class="komorka-liczba"><span class="odznaka-zmiany odznaka-wzrost">+2.48%</span></td>
+                    <td class="komorka-liczba"><span class="odznaka-zmiany odznaka-spadek">-0.95%</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </form>
+        </section>
+
+      </div>
+
+      <!-- Sekcja boczna (aside) z interpretacją analityczną -->
+      <aside class="panel-informacyjny" aria-labelledby="tytul-interpretacji">
+        <div class="panel-informacyjny-tresc">
+          <h3 id="tytul-interpretacji" class="aside-tytul">Jak interpretować wskaźniki analizy ilościowej?</h3>
+          <p>
+            W analizie szeregów czasowych rynku walutowego poszczególne miary statystyczne pełnią ściśle zdefiniowaną rolę decyzyjną:
+          </p>
+          <ul class="lista-cech">
+            <li><strong>Minimum i Maksimum:</strong> Wyznaczają historyczne poziomy wsparcia i oporu w analizowanym oknie czasowym, kluczowe dla wyznaczania progów alertów cenowych.</li>
+            <li><strong>Rozstęp i Zmienność (%):</strong> Wyższa amplituda wahań oznacza większe ryzyko kursowe przy odłożonych w czasie płatnościach zagranicznych.</li>
+            <li><strong>Spread walutowy:</strong> Mierzy płynność rynku – im niższy spread, tym mniejszy narzut pośredników (banków, kantorów) przy fizycznej lub bezgotówkowej wymianie środków.</li>
+          </ul>
+        </div>
+      </aside>
+
+    </div>
+  </main>
+
+  <!-- Stopka witryny -->
+  <footer class="stopka-glowna">
+    <div class="kontener stopka-kontener">
+      <div class="stopka-kolumna">
+        <div class="logo-stopka">
+          <img src="img/logo.svg" alt="KursyWalut" width="32" height="32">
+          <span>Kursy<strong>Walut</strong></span>
+        </div>
+        <p class="stopka-opis">
+          Projekt witryny internetowej prezentującej i analizującej zbiór danych kursów walut NBP.
+          Kierunek: Inżynieria i analiza danych | III rok | Rok akademicki 2026/2027.
+        </p>
+      </div>
+
+      <div class="stopka-kolumna">
+        <h4 class="stopka-naglowek">Podstrony serwisu</h4>
+        <ul class="stopka-lista">
+          <li><a href="index.html">Strona główna</a></li>
+          <li><a href="dane.html">Tabela kursów</a></li>
+          <li><a href="analiza.html">Analiza i wykresy</a></li>
+          <li><a href="formularz.html">Alert kursowy</a></li>
+          <li><a href="o-projekcie.html">O projekcie i autorach</a></li>
+        </ul>
+      </div>
+
+      <div class="stopka-kolumna">
+        <h4 class="stopka-naglowek">Źródła danych</h4>
+        <ul class="stopka-lista">
+          <li><a href="https://api.nbp.pl/" target="_blank" rel="noopener noreferrer">Oficjalne API NBP</a></li>
+          <li><a href="https://nbp.pl/statystyka-i-sprawozdawczosc/kursy/" target="_blank" rel="noopener noreferrer">Archiwum kursów NBP</a></li>
+          <li><a href="https://www.chartjs.org/" target="_blank" rel="noopener noreferrer">Biblioteka Chart.js</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="stopka-dol">
+      <div class="kontener stopka-dol-kontener">
+        <p>&copy; 2026 KursyWalut. Projekt zrealizowany w ramach przedmiotu Aplikacje Internetowe.</p>
+        <p class="stopka-technologie">HTML5 &bull; CSS3 &bull; Vanilla JavaScript &bull; Chart.js</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Biblioteka Chart.js do rysowania wykresów -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Dołączenie skryptu wspólnego (motyw jasny/ciemny) -->
+  <script src="js/common.js"></script>
+
+  <!-- Skrypty logiki dashboardu, wskaźników i wykresu (moduł Osoby A): -->
+  <!-- <script src="js/data.js"></script> -->
+  <!-- <script src="js/analiza.js"></script> -->
+</body>
+</html>
