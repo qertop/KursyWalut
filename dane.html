@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Tabela kursów walut NBP – pełna lista notowań średnich, kupna i sprzedaży. Wyszukiwanie, filtrowanie po walucie i dacie oraz sortowanie kolumn.">
+  <title>Tabela Kursów Walut NBP – Notowania, Filtry i Sortowanie | KursyWalut</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Główny nagłówek witryny z logo, nawigacją i przełącznikiem motywu -->
+  <header class="naglowek-glowny">
+    <div class="kontener naglowek-kontener">
+      <a href="index.html" class="logo-link" aria-label="Strona główna KursyWalut">
+        <img src="img/logo.svg" alt="Logo KursyWalut" class="logo-obrazek" width="40" height="40">
+        <span class="logo-tekst">Kursy<strong>Walut</strong></span>
+      </a>
+
+      <nav class="nawigacja-glowna" aria-label="Główne menu nawigacyjne">
+        <ul class="menu-lista">
+          <li class="menu-element"><a href="index.html" class="menu-link">Strona główna</a></li>
+          <li class="menu-element"><a href="dane.html" class="menu-link aktywny" aria-current="page">Tabela kursów</a></li>
+          <li class="menu-element"><a href="analiza.html" class="menu-link">Analiza i wykresy</a></li>
+          <li class="menu-element"><a href="formularz.html" class="menu-link">Alert kursowy</a></li>
+          <li class="menu-element"><a href="o-projekcie.html" class="menu-link">O projekcie</a></li>
+        </ul>
+      </nav>
+
+      <div class="akcje-naglowka">
+        <button type="button" id="przelacznik-motywu" class="przycisk-motyw" aria-label="Przełącz motyw jasny / ciemny">
+          🌙 Motyw ciemny
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Pasek informacyjny z datą notowań NBP -->
+  <div class="pasek-info" role="region" aria-label="Informacja o aktualności notowań">
+    <div class="kontener pasek-info-kontener">
+      <span class="status-kropka" aria-hidden="true"></span>
+      <p class="status-tekst">
+        Oficjalne notowania Narodowego Banku Polskiego (Tabela A i C) | Ostatnia aktualizacja danych: <strong>9 listopada 2026 r.</strong>
+      </p>
+    </div>
+  </div>
+
+  <!-- Główna zawartość podstrony z tabelą danych -->
+  <main class="glowna-zawartosc">
+    <div class="kontener">
+
+      <!-- Okruszki chleba (breadcrumbs) -->
+      <nav class="okruszki" aria-label="Ścieżka powrotu">
+        <ol class="okruszki-lista">
+          <li><a href="index.html">Strona główna</a></li>
+          <li aria-current="page">Tabela kursów walut</li>
+        </ol>
+      </nav>
+
+      <!-- Nagłówek sekcji z tabelą -->
+      <header class="podstrona-naglowek">
+        <span class="nadtytul">Baza danych notowań NBP</span>
+        <h1 class="tytul-podstrony">Tabela notowań i archiwum kursów walut</h1>
+        <p class="podstrona-opis">
+          Zestawienie oficjalnych kursów średnich (Tabela A) oraz kursów kupna i sprzedaży (Tabela C) publikowanych przez Narodowy Bank Polski. Skorzystaj z filtrów wyszukiwania lub kliknij w nagłówek kolumny, aby posortować dane.
+        </p>
+      </header>
+
+      <!-- Moduł filtrów i wyszukiwarki -->
+      <section class="panel-filtrow-kontener" aria-labelledby="naglowek-filtrow">
+        <div class="panel-filtrow-naglowek">
+          <h2 id="naglowek-filtrow" class="panel-filtrow-tytul">Filtrowanie i wyszukiwanie notowań</h2>
+          <span class="podpowiedz-filtrow">Wybierz kryteria lub wpisz szukaną frazę</span>
+        </div>
+
+        <form class="formularz-filtrow" id="formularz-filtrow" onsubmit="return false;">
+          <div class="siatka-filtrow">
+            
+            <!-- Wyszukiwarka tekstowa -->
+            <div class="grupa-filtra grupa-filtra-szukaj">
+              <label for="filtr-szukaj" class="etykieta-filtra">Szukaj po kodzie lub nazwie:</label>
+              <div class="pole-ikona-kontener">
+                <input type="search" id="filtr-szukaj" class="pole-tekstowe" placeholder="np. EUR, Dolar, Korona..." aria-label="Wyszukaj walutę po kodzie lub nazwie">
+              </div>
+            </div>
+
+            <!-- Filtr wyboru waluty -->
+            <div class="grupa-filtra">
+              <label for="filtr-waluta" class="etykieta-filtra">Wybierz walutę:</label>
+              <select id="filtr-waluta" class="pole-wyboru" aria-label="Filtruj po walucie">
+                <option value="wszystkie" selected>Wszystkie waluty (20)</option>
+                <option value="EUR">EUR - Euro</option>
+                <option value="USD">USD - Dolar amerykański</option>
+                <option value="GBP">GBP - Funt szterling</option>
+                <option value="CHF">CHF - Frank szwajcarski</option>
+                <option value="NOK">NOK - Korona norweska</option>
+                <option value="SEK">SEK - Korona szwedzka</option>
+                <option value="CZK">CZK - Korona czeska</option>
+                <option value="HUF">HUF - Forint węgierski</option>
+                <option value="JPY">JPY - Jen japoński</option>
+                <option value="DKK">DKK - Korona duńska</option>
+                <option value="CAD">CAD - Dolar kanadyjski</option>
+                <option value="AUD">AUD - Dolar australijski</option>
+                <option value="NZD">NZD - Dolar nowozelandzki</option>
+                <option value="RON">RON - Lej rumuński</option>
+                <option value="BGN">BGN - Lew bułgarski</option>
+                <option value="TRY">TRY - Lira turecka</option>
+                <option value="ILS">ILS - Nowy izraelski szekel</option>
+                <option value="ISK">ISK - Korona islandzka</option>
+                <option value="SGD">SGD - Dolar singapurski</option>
+                <option value="UAH">UAH - Hrywna ukraińska</option>
+              </select>
+            </div>
+
+            <!-- Data od -->
+            <div class="grupa-filtra">
+              <label for="filtr-od" class="etykieta-filtra">Data notowania od:</label>
+              <input type="date" id="filtr-od" class="pole-tekstowe" value="2026-11-01" aria-label="Data początkowa zakresu">
+            </div>
+
+            <!-- Data do -->
+            <div class="grupa-filtra">
+              <label for="filtr-do" class="etykieta-filtra">Data notowania do:</label>
+              <input type="date" id="filtr-do" class="pole-tekstowe" value="2026-11-09" aria-label="Data końcowa zakresu">
+            </div>
+
+          </div>
+
+          <!-- Pasek akcji i szybkich filtrów -->
+          <div class="belka-akcji-filtrow">
+            <div class="tagi-szybkich-filtrow" role="group" aria-label="Szybkie kategorie walut">
+              <span class="tagi-etykieta">Szybki wybór:</span>
+              <button type="button" class="przycisk-tag aktywny">Wszystkie</button>
+              <button type="button" class="przycisk-tag">Główne (EUR, USD, GBP, CHF)</button>
+              <button type="button" class="przycisk-tag">Skandynawia (NOK, SEK, DKK)</button>
+              <button type="button" class="przycisk-tag">Region CEE (CZK, HUF, RON)</button>
+            </div>
+
+            <div class="przyciski-akcji-filtrow">
+              <button type="reset" class="przycisk przycisk-drugorzedny" id="przycisk-reset-filtrow">
+                Wyczyść filtry
+              </button>
+            </div>
+          </div>
+        </form>
+      </section>
+
+      <!-- Pasek stanu tabeli: Licznik rekordów i informacja o sortowaniu -->
+      <div class="pasek-stanu-tabeli">
+        <div class="licznik-box">
+          <span class="licznik-etykieta">Liczba pozycji w zestawieniu:</span>
+          <strong id="licznik-rekordow" class="licznik-liczba">20 rekordów</strong>
+        </div>
+        <div class="instrukcja-sortowania">
+          <span class="instrukcja-tekst">💡 Wskazówka: Kliknij nagłówek kolumny, aby posortować dane rosnąco lub malejąco.</span>
+        </div>
+      </div>
+
+      <!-- Tabela kursów walut -->
+      <div class="opakowanie-tabeli" role="region" aria-label="Tabela notowań kursów walut NBP" tabindex="0">
+        <table id="tabela-kursow" class="tabela-kursow-glowna">
+          <caption class="ukryty-tekst">Oficjalne kursy walut obcych Narodowego Banku Polskiego</caption>
+          <thead>
+            <tr>
+              <th scope="col" data-sort="waluta" class="kolumna-sortowalna" title="Kliknij, aby posortować po kodzie ISO">
+                <div class="naglowek-komorka">
+                  <span>Waluta</span>
+                  <span class="ikona-sort" aria-hidden="true">&#x21C5;</span>
+                </div>
+              </th>
+              <th scope="col" data-sort="nazwa" class="kolumna-sortowalna" title="Kliknij, aby posortować po nazwie waluty">
+                <div class="naglowek-komorka">
+                  <span>Nazwa waluty</span>
+                  <span class="ikona-sort" aria-hidden="true">&#x21C5;</span>
+                </div>
+              </th>
+              <th scope="col" data-sort="data" class="kolumna-sortowalna" title="Kliknij, aby posortować po dacie publikacji">
+                <div class="naglowek-komorka">
+                  <span>Data notowania</span>
+                  <span class="ikona-sort" aria-hidden="true">&#x21C5;</span>
+                </div>
+              </th>
+              <th scope="col" data-sort="sredni" class="kolumna-sortowalna kolumna-liczba" title="Kliknij, aby posortować po kursie średnim">
+                <div class="naglowek-komorka prawo">
+                  <span>Kurs średni (PLN)</span>
+                  <span class="ikona-sort" aria-hidden="true">&#x21C5;</span>
+                </div>
+              </th>
+              <th scope="col" data-sort="kupno" class="kolumna-sortowalna kolumna-liczba" title="Kliknij, aby posortować po kursie kupna">
+                <div class="naglowek-komorka prawo">
+                  <span>Kupno (PLN)</span>
+                  <span class="ikona-sort" aria-hidden="true">&#x21C5;</span>
+                </div>
+              </th>
+              <th scope="col" data-sort="sprzedaz" class="kolumna-sortowalna kolumna-liczba" title="Kliknij, aby posortować po kursie sprzedaży">
+                <div class="naglowek-komorka prawo">
+                  <span>Sprzedaż (PLN)</span>
+                  <span class="ikona-sort" aria-hidden="true">&#x21C5;</span>
+                </div>
+              </th>
+              <th scope="col" data-sort="spread" class="kolumna-sortowalna kolumna-liczba" title="Kliknij, aby posortować po wielkości spreadu">
+                <div class="naglowek-komorka prawo">
+                  <span>Spread (PLN)</span>
+                  <span class="ikona-sort" aria-hidden="true">&#x21C5;</span>
+                </div>
+              </th>
+              <th scope="col" data-sort="zmiana" class="kolumna-sortowalna kolumna-srodek" title="Kliknij, aby posortować po zmianie procentowej">
+                <div class="naglowek-komorka srodek">
+                  <span>Zmiana 24h</span>
+                  <span class="ikona-sort" aria-hidden="true">&#x21C5;</span>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody id="tabela-kursow-cialo">
+            <!-- Rekord 1: Euro -->
+            <tr>
+              <td>
+                <div class="waluta-identyfikator">
+                  <img src="img/flagi/eur.svg" alt="Flaga Unii Europejskiej" class="flaga-ikona" width="24" height="18">
+                  <span class="waluta-kod">EUR</span>
+                </div>
+              </td>
+              <td class="waluta-nazwa">Euro</td>
+              <td class="komorka-data">2026-11-09</td>
+              <td class="komorka-liczba kurs-glowny">4.3873</td>
+              <td class="komorka-liczba">4.3434</td>
+              <td class="komorka-liczba">4.4312</td>
+              <td class="komorka-liczba komorka-spread">0.0878</td>
+              <td class="komorka-srodek">
+                <span class="odznaka-zmiany odznaka-wzrost">+0.12%</span>
+              </td>
+            </tr>
+
+            <!-- Rekord 2: Dolar amerykański -->
+            <tr>
+              <td>
+                <div class="waluta-identyfikator">
+                  <img src="img/flagi/usd.svg" alt="Flaga Stanów Zjednoczonych" class="flaga-ikona" width="24" height="18">
+                  <span class="waluta-kod">USD</span>
+                </div>
+              </td>
+              <td class="waluta-nazwa">Dolar amerykański</td>
+              <td class="komorka-data">2026-11-09</td>
+              <td class="komorka-liczba kurs-glowny">3.9199</td>
+              <td class="komorka-liczba">3.8807</td>
+              <td class="komorka-liczba">3.9591</td>
+              <td class="komorka-liczba komorka-spread">0.0784</td>
+              <td class="komorka-srodek">
+                <span class="odznaka-zmiany odznaka-spadek">-0.25%</span>
+              </td>
+            </tr>
+
+            <!-- Rekord 3: Funt szterling -->
+            <tr>
+              <td>
+                <div class="waluta-identyfikator">
+                  <img src="img/flagi/gbp.svg" alt="Flaga Wielkiej Brytanii" class="flaga-ikona" width="24" height="18">
+                  <span class="waluta-kod">GBP</span>
+                </div>
+              </td>
+              <td class="waluta-nazwa">Funt szterling</td>
+              <td class="komorka-data">2026-11-09</td>
+              <td class="komorka-liczba kurs-glowny">5.2593</td>
+              <td class="komorka-liczba">5.2067</td>
+              <td class="komorka-liczba">5.3119</td>
+              <td class="komorka-liczba komorka-spread">0.1052</td>
+              <td class="komorka-srodek">
+                <span class="odznaka-zmiany odznaka-wzrost">+0.18%</span>
+              </td>
+            </tr>
+
+            <!-- Rekord 4: Frank szwajcarski -->
+            <tr>
+              <td>
+                <div class="waluta-identyfikator">
+                  <img src="img/flagi/chf.svg" alt="Flaga Szwajcarii" class="flaga-ikona" width="24" height="18">
+                  <span class="waluta-kod">CHF</span>
+                </div>
+              </td>
+              <td class="waluta-nazwa">Frank szwajcarski</td>
+              <td class="komorka-data">2026-11-09</td>
+              <td class="komorka-liczba kurs-glowny">4.7925</td>
+              <td class="komorka-liczba">4.7446</td>
+              <td class="komorka-liczba">4.8404</td>
+              <td class="komorka-liczba komorka-spread">0.0958</td>
+              <td class="komorka-srodek">
+                <span class="odznaka-zmiany odznaka-wzrost">+0.31%</span>
+              </td>
+            </tr>
+
+            <!-- Rekord 5: Korona norweska -->
+            <tr>
+              <td>
+                <div class="waluta-identyfikator">
+                  <img src="img/flagi/nok.svg" alt="Flaga Norwegii" class="flaga-ikona" width="24" height="18">
+                  <span class="waluta-kod">NOK</span>
+                </div>
+              </td>
+              <td class="waluta-nazwa">Korona norweska</td>
+              <td class="komorka-data">2026-11-09</td>
+              <td class="komorka-liczba kurs-glowny">0.4179</td>
+              <td class="komorka-liczba">0.4137</td>
+              <td class="komorka-liczba">0.4221</td>
+              <td class="komorka-liczba komorka-spread">0.0084</td>
+              <td class="komorka-srodek">
+                <span class="odznaka-zmiany odznaka-wzrost">+0.45%</span>
+              </td>
+            </tr>
+
+            <!-- Rekord 6: Korona szwedzka -->
+            <tr>
+              <td>
+                <div class="waluta-identyfikator">
+                  <img src="img/flagi/sek.svg" alt="Flaga Szwecji" class="flaga-ikona" width="24" height="18">
+                  <span class="waluta-kod">SEK</span>
+                </div>
+              </td>
+              <td class="waluta-nazwa">Korona szwedzka</td>
+              <td class="komorka-data">2026-11-09</td>
+              <td class="komorka-liczba kurs-glowny">0.3989</td>
+              <td class="komorka-liczba">0.3949</td>
+              <td class="komorka-liczba">0.4029</td>
+              <td class="komorka-liczba komorka-spread">0.0080</td>
+              <td class="komorka-srodek">
+                <span class="odznaka-zmiany odznaka-wzrost">+0.20%</span>
+              </td>
+            </tr>
+
+            <!-- Rekord 7: Korona czeska -->
+            <tr>
+              <td>
+                <div class="waluta-identyfikator">
+                  <img src="img/flagi/czk.svg" alt="Flaga Czech" class="flaga-ikona" width="24" height="18">
+                  <span class="waluta-kod">CZK</span>
+                </div>
+              </td>
+              <td class="waluta-nazwa">Korona czeska</td>
+              <td class="komorka-data">2026-11-09</td>
+              <td class="komorka-liczba kurs-glowny">0.1802</td>
+              <td class="komorka-liczba">0.1784</td>
+              <td class="komorka-liczba">0.1820</td>
+              <td class="komorka-liczba komorka-spread">0.0036</td>
+              <td class="komorka-srodek">
+                <span class="odznaka-zmiany odznaka-spadek">-0.08%</span>
+              </td>
+            </tr>
+
+            <!-- Rekord 8: Forint węgierski -->
+            <tr>
+              <td>
+                <div class="waluta-identyfikator">
+                  <img src="img/flagi/huf.svg" alt="Flaga Węgier" class="flaga-ikona" width="24" height="18">
+                  <span class="waluta-kod">100 HUF</span>
+                </div>
+              </td>
+              <td class="waluta-nazwa">Forint węgierski</td>
+              <td class="komorka-data">2026-11-09</td>
+              <td class="komorka-liczba kurs-glowny">1.2080</td>
+              <td class="komorka-liczba">1.1959</td>
+              <td class="komorka-liczba">1.2201</td>
+              <td class="komorka-liczba komorka-spread">0.0242</td>
+              <td class="komorka-srodek">
+                <span class="odznaka-zmiany odznaka-spadek">-0.32%</span>
+              </td>
+            </tr>
+
+            <!-- Rekord 9: Jen japoński -->
+            <tr>
+              <td>
+                <div class="waluta-identyfikator">
+                  <img src="img/flagi/jpy.svg" alt="Flaga Japonii" class="flaga-ikona" width="24" height="18">
+                  <span class="waluta-kod">100 JPY</span>
+                </div>
+              </td>
+              <td class="waluta-nazwa">Jen japoński</td>
+              <td class="komorka-data">2026-11-09</td>
+              <td class="komorka-liczba kurs-glowny">2.5840</td>
+              <td class="komorka-liczba">2.5582</td>
+              <td class="komorka-liczba">2.6098</td>
+              <td class="komorka-liczba komorka-spread">0.0516</td>
+              <td class="komorka-srodek">
+                <span class="odznaka-zmiany odznaka-spadek">-0.15%</span>
+              </td>
+            </tr>
+
+            <!-- Rekord 10: Korona duńska -->
+            <tr>
+              <td>
+                <div class="waluta-identyfikator">
+                  <img src="img/flagi/dkk.svg" alt="Flaga Danii" class="flaga-ikona" width="24" height="18">
+                  <span class="waluta-kod">DKK</span>
+                </div>
+              </td>
+              <td class="waluta-nazwa">Korona duńska</td>
+              <td class="komorka-data">2026-11-09</td>
+              <td class="komorka-liczba kurs-glowny">0.5882</td>
+              <td class="komorka-liczba">0.5823</td>
+              <td class="komorka-liczba">0.5941</td>
+              <td class="komorka-liczba komorka-spread">0.0118</td>
+              <td class="komorka-srodek">
+                <span class="odznaka-zmiany odznaka-wzrost">+0.10%</span>
+              </td>
+            </tr>
+
+            <!-- Rekord 11: Dolar kanadyjski -->
+            <tr>
+              <td>
+                <div class="waluta-identyfikator">
+                  <img src="img/flagi/cad.svg" alt="Flaga Kanady" class="flaga-ikona" width="24" height="18">
+                  <span class="waluta-kod">CAD</span>
+                </div>
+              </td>
+              <td class="waluta-nazwa">Dolar kanadyjski</td>
+              <td class="komorka-data">2026-11-09</td>
+              <td class="komorka-liczba kurs-glowny">2.8712</td>
+              <td class="komorka-liczba">2.8425</td>
+              <td class="komorka-liczba">2.8999</td>
+              <td class="komorka-liczba komorka-spread">0.0574</td>
+              <td class="komorka-srodek">
+                <span class="odznaka-zmiany odznaka-spadek">-0.05%</span>
+              </td>
+            </tr>
+
+            <!-- Rekord 12: Dolar australijski -->
+            <tr>
+              <td>
+                <div class="waluta-identyfikator">
+                  <img src="img/flagi/aud.svg" alt="Flaga Australii" class="flaga-ikona" width="24" height="18">
+                  <span class="waluta-kod">AUD</span>
+                </div>
+              </td>
+              <td class="waluta-nazwa">Dolar australijski</td>
+              <td class="komorka-data">2026-11-09</td>
+              <td class="komorka-liczba kurs-glowny">2.5930</td>
+              <td class="komorka-liczba">2.5671</td>
+              <td class="komorka-liczba">2.6189</td>
+              <td class="komorka-liczba komorka-spread">0.0518</td>
+              <td class="komorka-srodek">
+                <span class="odznaka-zmiany odznaka-wzrost">+0.22%</span>
+              </td>
+            </tr>
+
+            <!-- Rekord 13: Dolar nowozelandzki -->
+            <tr>
+              <td>
+                <div class="waluta-identyfikator">
+                  <img src="img/flagi/aud.svg" alt="Flaga Nowej Zelandii" class="flaga-ikona" width="24" height="18">
+                  <span class="waluta-kod">NZD</span>
+                </div>
+              </td>
+              <td class="waluta-nazwa">Dolar nowozelandzki</td>
+              <td class="komorka-data">2026-11-09</td>
+              <td class="komorka-liczba kurs-glowny">2.3745</td>
+              <td class="komorka-liczba">2.3508</td>
+              <td class="komorka-liczba">2.3982</td>
+              <td class="komorka-liczba komorka-spread">0.0474</td>
+              <td class="komorka-srodek">
+                <span class="odznaka-zmiany odznaka-wzrost">+0.14%</span>
+              </td>
+            </tr>
+
+            <!-- Rekord 14: Lej rumuński -->
+            <tr>
+              <td>
+                <div class="waluta-identyfikator">
+                  <img src="img/flagi/ron.svg" alt="Flaga Rumunii" class="flaga-ikona" width="24" height="18">
+                  <span class="waluta-kod">RON</span>
+                </div>
+              </td>
+              <td class="waluta-nazwa">Lej rumuński</td>
+              <td class="komorka-data">2026-11-09</td>
+              <td class="komorka-liczba kurs-glowny">0.8814</td>
+              <td class="komorka-liczba">0.8726</td>
+              <td class="komorka-liczba">0.8902</td>
+              <td class="komorka-liczba komorka-spread">0.0176</td>
+              <td class="komorka-srodek">
+                <span class="odznaka-zmiany odznaka-wzrost">+0.02%</span>
+              </td>
+            </tr>
+
+            <!-- Rekord 15: Lew bułgarski -->
+            <tr>
+              <td>
+                <div class="waluta-identyfikator">
+                  <img src="img/flagi/bgn.svg" alt="Flaga Bułgarii" class="flaga-ikona" width="24" height="18">
+                  <span class="waluta-kod">BGN</span>
+                </div>
+              </td>
+              <td class="waluta-nazwa">Lew bułgarski</td>
+              <td class="komorka-data">2026-11-09</td>
+              <td class="komorka-liczba kurs-glowny">2.2432</td>
+              <td class="komorka-liczba">2.2208</td>
+              <td class="komorka-liczba">2.2656</td>
+              <td class="komorka-liczba komorka-spread">0.0448</td>
+              <td class="komorka-srodek">
+                <span class="odznaka-zmiany odznaka-wzrost">+0.11%</span>
+              </td>
+            </tr>
+
+            <!-- Rekord 16: Lira turecka -->
+            <tr>
+              <td>
+                <div class="waluta-identyfikator">
+                  <img src="img/flagi/try.svg" alt="Flaga Turcji" class="flaga-ikona" width="24" height="18">
+                  <span class="waluta-kod">TRY</span>
+                </div>
+              </td>
+              <td class="waluta-nazwa">Lira turecka</td>
+              <td class="komorka-data">2026-11-09</td>
+              <td class="komorka-liczba kurs-glowny">0.1142</td>
+              <td class="komorka-liczba">0.1131</td>
+              <td class="komorka-liczba">0.1153</td>
+              <td class="komorka-liczba komorka-spread">0.0022</td>
+              <td class="komorka-srodek">
+                <span class="odznaka-zmiany odznaka-spadek">-0.65%</span>
+              </td>
+            </tr>
+
+            <!-- Rekord 17: Nowy izraelski szekel -->
+            <tr>
+              <td>
+                <div class="waluta-identyfikator">
+                  <img src="img/flagi/ils.svg" alt="Flaga Izraela" class="flaga-ikona" width="24" height="18">
+                  <span class="waluta-kod">ILS</span>
+                </div>
+              </td>
+              <td class="waluta-nazwa">Nowy izraelski szekel</td>
+              <td class="komorka-data">2026-11-09</td>
+              <td class="komorka-liczba kurs-glowny">1.0562</td>
+              <td class="komorka-liczba">1.0456</td>
+              <td class="komorka-liczba">1.0668</td>
+              <td class="komorka-liczba komorka-spread">0.0212</td>
+              <td class="komorka-srodek">
+                <span class="odznaka-zmiany odznaka-wzrost">+0.19%</span>
+              </td>
+            </tr>
+
+            <!-- Rekord 18: Korona islandzka -->
+            <tr>
+              <td>
+                <div class="waluta-identyfikator">
+                  <img src="img/flagi/isk.svg" alt="Flaga Islandii" class="flaga-ikona" width="24" height="18">
+                  <span class="waluta-kod">100 ISK</span>
+                </div>
+              </td>
+              <td class="waluta-nazwa">Korona islandzka</td>
+              <td class="komorka-data">2026-11-09</td>
+              <td class="komorka-liczba kurs-glowny">2.8910</td>
+              <td class="komorka-liczba">2.8621</td>
+              <td class="komorka-liczba">2.9199</td>
+              <td class="komorka-liczba komorka-spread">0.0578</td>
+              <td class="komorka-srodek">
+                <span class="odznaka-zmiany odznaka-spadek">-0.12%</span>
+              </td>
+            </tr>
+
+            <!-- Rekord 19: Dolar singapurski -->
+            <tr>
+              <td>
+                <div class="waluta-identyfikator">
+                  <img src="img/flagi/sgd.svg" alt="Flaga Singapuru" class="flaga-ikona" width="24" height="18">
+                  <span class="waluta-kod">SGD</span>
+                </div>
+              </td>
+              <td class="waluta-nazwa">Dolar singapurski</td>
+              <td class="komorka-data">2026-11-09</td>
+              <td class="komorka-liczba kurs-glowny">2.9920</td>
+              <td class="komorka-liczba">2.9621</td>
+              <td class="komorka-liczba">3.0219</td>
+              <td class="komorka-liczba komorka-spread">0.0598</td>
+              <td class="komorka-srodek">
+                <span class="odznaka-zmiany odznaka-wzrost">+0.07%</span>
+              </td>
+            </tr>
+
+            <!-- Rekord 20: Hrywna ukraińska -->
+            <tr>
+              <td>
+                <div class="waluta-identyfikator">
+                  <img src="img/flagi/uah.svg" alt="Flaga Ukrainy" class="flaga-ikona" width="24" height="18">
+                  <span class="waluta-kod">UAH</span>
+                </div>
+              </td>
+              <td class="waluta-nazwa">Hrywna ukraińska</td>
+              <td class="komorka-data">2026-11-09</td>
+              <td class="komorka-liczba kurs-glowny">0.0945</td>
+              <td class="komorka-liczba">0.0936</td>
+              <td class="komorka-liczba">0.0954</td>
+              <td class="komorka-liczba komorka-spread">0.0018</td>
+              <td class="komorka-srodek">
+                <span class="odznaka-zmiany odznaka-spadek">-0.10%</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Paginacja i podsumowanie wyników -->
+      <nav class="tabela-paginacja" aria-label="Nawigacja stronami tabeli">
+        <div class="paginacja-opis">
+          Strona <strong>1</strong> z <strong>1</strong> (wyświetlanie 20 z 20 pozycji)
+        </div>
+        <div class="paginacja-przyciski">
+          <button type="button" class="przycisk-paginacji" disabled aria-label="Poprzednia strona">&laquo; Poprzednia</button>
+          <button type="button" class="przycisk-paginacji aktywny" aria-current="page">1</button>
+          <button type="button" class="przycisk-paginacji" disabled aria-label="Następna strona">Następna &raquo;</button>
+        </div>
+      </nav>
+
+      <!-- Sekcja objaśniająca pojęcia i zasady (Aside) -->
+      <aside class="panel-informacyjny" aria-labelledby="tytul-objasnienia">
+        <div class="panel-informacyjny-tresc">
+          <h3 id="tytul-objasnienia" class="aside-tytul">Objaśnienia kolumn i metodologii NBP</h3>
+          <ul class="lista-cech">
+            <li><strong>Kurs średni NBP:</strong> Wyliczany zgodnie z uchwałą Zarządu NBP na podstawie kursów rynkowych w systemach międzybankowych.</li>
+            <li><strong>Kurs kupna i sprzedaży:</strong> Ceny transakcyjne z Tabeli C stosowane przy rozliczeniach gotówkowych i bezgotówkowych.</li>
+            <li><strong>Spread walutowy:</strong> Różnica pomiędzy kursem sprzedaży a kursem kupna, stanowiąca koszt wymiany waluty w instytucjach finansowych.</li>
+            <li><strong>Podstawa kwotowania:</strong> Większość walut podawana jest w relacji 1:1, natomiast waluty o niskiej wartości jednostkowej (np. JPY, HUF, ISK) kwotowane są w przeliczeniu na 100 jednostek.</li>
+          </ul>
+        </div>
+      </aside>
+
+    </div>
+  </main>
+
+  <!-- Stopka witryny -->
+  <footer class="stopka-glowna">
+    <div class="kontener stopka-kontener">
+      <div class="stopka-kolumna">
+        <div class="logo-stopka">
+          <img src="img/logo.svg" alt="KursyWalut" width="32" height="32">
+          <span>Kursy<strong>Walut</strong></span>
+        </div>
+        <p class="stopka-opis">
+          Projekt witryny internetowej prezentującej i analizującej zbiór danych kursów walut NBP.
+          Kierunek: Inżynieria i analiza danych | III rok | Rok akademicki 2026/2027.
+        </p>
+      </div>
+
+      <div class="stopka-kolumna">
+        <h4 class="stopka-naglowek">Podstrony serwisu</h4>
+        <ul class="stopka-lista">
+          <li><a href="index.html">Strona główna</a></li>
+          <li><a href="dane.html">Tabela kursów</a></li>
+          <li><a href="analiza.html">Analiza i wykresy</a></li>
+          <li><a href="formularz.html">Alert kursowy</a></li>
+          <li><a href="o-projekcie.html">O projekcie i autorach</a></li>
+        </ul>
+      </div>
+
+      <div class="stopka-kolumna">
+        <h4 class="stopka-naglowek">Źródła danych</h4>
+        <ul class="stopka-lista">
+          <li><a href="https://api.nbp.pl/" target="_blank" rel="noopener noreferrer">Oficjalne API NBP</a></li>
+          <li><a href="https://nbp.pl/statystyka-i-sprawozdawczosc/kursy/" target="_blank" rel="noopener noreferrer">Archiwum kursów NBP</a></li>
+          <li><a href="https://www.chartjs.org/" target="_blank" rel="noopener noreferrer">Biblioteka Chart.js</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="stopka-dol">
+      <div class="kontener stopka-dol-kontener">
+        <p>&copy; 2026 KursyWalut. Projekt zrealizowany w ramach przedmiotu Aplikacje Internetowe.</p>
+        <p class="stopka-technologie">HTML5 &bull; CSS3 &bull; Vanilla JavaScript &bull; Chart.js</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Dołączenie skryptu wspólnego (motyw jasny/ciemny) -->
+  <script src="js/common.js"></script>
+
+  <!-- Skrypty logiki tabeli, wyszukiwania i sortowania (moduł Osoby A): -->
+  <!-- <script src="js/data.js"></script> -->
+  <!-- <script src="js/table.js"></script> -->
+</body>
+</html>

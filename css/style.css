@@ -818,3 +818,434 @@ img {
     text-align: center;
   }
 }
+
+
+/* ==========================================================
+   Style podstrony z tabelą danych (dane.html)
+   ========================================================== */
+
+/* Klasa pomocnicza dla czytników ekranowych */
+.ukryty-tekst {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Okruszki chleba (breadcrumbs) */
+.okruszki {
+  margin-bottom: var(--odstep-3);
+  font: var(--tekst-etykieta);
+}
+
+.okruszki-lista {
+  display: flex;
+  list-style: none;
+  gap: var(--odstep-2);
+  align-items: center;
+}
+
+.okruszki-lista li + li::before {
+  content: "/";
+  margin-right: var(--odstep-2);
+  opacity: 0.5;
+}
+
+.okruszki-lista a {
+  color: var(--kolor-tekst);
+  opacity: 0.7;
+}
+
+.okruszki-lista a:hover {
+  opacity: 1;
+  color: var(--kolor-glowny);
+}
+
+.okruszki-lista li[aria-current="page"] {
+  font-weight: 600;
+  color: var(--kolor-glowny);
+}
+
+/* Nagłówek podstrony */
+.podstrona-naglowek {
+  margin-bottom: var(--odstep-5);
+  max-width: 800px;
+}
+
+.tytul-podstrony {
+  font: var(--tekst-naglowek);
+  font-size: 2.25rem;
+  line-height: 1.25;
+  color: var(--kolor-tekst);
+  margin-bottom: var(--odstep-2);
+}
+
+.podstrona-opis {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  opacity: 0.85;
+}
+
+/* Panel filtrów i wyszukiwarki */
+.panel-filtrow-kontener {
+  background-color: var(--kolor-powierzchnia);
+  border: 1px solid var(--kolor-obramowanie);
+  border-radius: var(--promien);
+  padding: var(--odstep-4);
+  box-shadow: var(--cien);
+  margin-bottom: var(--odstep-4);
+}
+
+.panel-filtrow-naglowek {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 1px solid var(--kolor-obramowanie);
+  padding-bottom: var(--odstep-3);
+  margin-bottom: var(--odstep-4);
+  flex-wrap: wrap;
+  gap: var(--odstep-2);
+}
+
+.panel-filtrow-tytul {
+  font: var(--tekst-tytul-karty);
+  font-size: 1.25rem;
+  color: var(--kolor-tekst);
+}
+
+.podpowiedz-filtrow {
+  font: var(--tekst-etykieta);
+  opacity: 0.7;
+}
+
+.siatka-filtrow {
+  display: grid;
+  grid-template-columns: 2fr 1.5fr 1fr 1fr;
+  gap: var(--odstep-3);
+  align-items: end;
+  margin-bottom: var(--odstep-4);
+}
+
+.grupa-filtra {
+  display: flex;
+  flex-direction: column;
+  gap: var(--odstep-1);
+}
+
+.etykieta-filtra {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--kolor-tekst);
+}
+
+.belka-akcji-filtrow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: var(--odstep-3);
+  border-top: 1px dashed var(--kolor-obramowanie);
+  flex-wrap: wrap;
+  gap: var(--odstep-3);
+}
+
+.tagi-szybkich-filtrow {
+  display: flex;
+  align-items: center;
+  gap: var(--odstep-2);
+  flex-wrap: wrap;
+}
+
+.tagi-etykieta {
+  font: var(--tekst-etykieta);
+  font-weight: 600;
+  opacity: 0.75;
+}
+
+.przycisk-tag {
+  background-color: transparent;
+  border: 1px solid var(--kolor-obramowanie);
+  color: var(--kolor-tekst);
+  font-size: 0.82rem;
+  font-weight: 500;
+  padding: 4px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.przycisk-tag:hover {
+  border-color: var(--kolor-glowny);
+  color: var(--kolor-glowny);
+  background-color: rgba(29, 78, 216, 0.05);
+}
+
+.przycisk-tag.aktywny {
+  background-color: var(--kolor-glowny);
+  border-color: var(--kolor-glowny);
+  color: #ffffff;
+}
+
+/* Pasek stanu tabeli */
+.pasek-stanu-tabeli {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--odstep-3);
+  padding: 0 var(--odstep-1);
+  flex-wrap: wrap;
+  gap: var(--odstep-2);
+}
+
+.licznik-box {
+  font-size: 0.92rem;
+  color: var(--kolor-tekst);
+}
+
+.licznik-liczba {
+  color: var(--kolor-glowny);
+  font-weight: 700;
+}
+
+.instrukcja-tekst {
+  font: var(--tekst-etykieta);
+  opacity: 0.75;
+}
+
+/* Opakowanie tabeli i tabela główna */
+.opakowanie-tabeli {
+  background-color: var(--kolor-powierzchnia);
+  border: 1px solid var(--kolor-obramowanie);
+  border-radius: var(--promien);
+  overflow-x: auto;
+  box-shadow: var(--cien);
+  margin-bottom: var(--odstep-4);
+  -webkit-overflow-scrolling: touch;
+}
+
+.tabela-kursow-glowna {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.95rem;
+}
+
+.tabela-kursow-glowna th {
+  background-color: rgba(29, 78, 216, 0.03);
+  border-bottom: 2px solid var(--kolor-obramowanie);
+  padding: var(--odstep-3);
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--kolor-tekst);
+  user-select: none;
+  white-space: nowrap;
+}
+
+.kolumna-sortowalna {
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.kolumna-sortowalna:hover {
+  background-color: rgba(29, 78, 216, 0.08);
+  color: var(--kolor-glowny);
+}
+
+.naglowek-komorka {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.naglowek-komorka.prawo {
+  justify-content: flex-end;
+}
+
+.naglowek-komorka.srodek {
+  justify-content: center;
+}
+
+.ikona-sort {
+  font-size: 0.85rem;
+  opacity: 0.45;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.kolumna-sortowalna:hover .ikona-sort {
+  opacity: 1;
+  color: var(--kolor-glowny);
+}
+
+.tabela-kursow-glowna tbody tr {
+  border-bottom: 1px solid var(--kolor-obramowanie);
+  transition: background-color 0.15s ease;
+}
+
+.tabela-kursow-glowna tbody tr:last-child {
+  border-bottom: none;
+}
+
+.tabela-kursow-glowna tbody tr:hover {
+  background-color: rgba(29, 78, 216, 0.04);
+}
+
+[data-theme="dark"] .tabela-kursow-glowna tbody tr:hover {
+  background-color: rgba(147, 180, 255, 0.05);
+}
+
+.tabela-kursow-glowna td {
+  padding: 14px var(--odstep-3);
+  vertical-align: middle;
+}
+
+.waluta-identyfikator {
+  display: flex;
+  align-items: center;
+  gap: var(--odstep-2);
+}
+
+.waluta-kod {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--kolor-tekst);
+  letter-spacing: 0.02em;
+}
+
+.waluta-nazwa {
+  font-weight: 500;
+  color: var(--kolor-tekst);
+}
+
+.komorka-data {
+  font-size: 0.88rem;
+  opacity: 0.75;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.komorka-liczba {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.kolumna-liczba {
+  text-align: right;
+}
+
+.kolumna-srodek {
+  text-align: center;
+}
+
+.kurs-glowny {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--kolor-tekst);
+}
+
+.komorka-spread {
+  opacity: 0.8;
+  font-size: 0.88rem;
+}
+
+.komorka-srodek {
+  text-align: center;
+}
+
+/* Paginacja tabeli */
+.tabela-paginacja {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--odstep-5);
+  padding: var(--odstep-3) var(--odstep-1);
+  flex-wrap: wrap;
+  gap: var(--odstep-3);
+}
+
+.paginacja-opis {
+  font-size: 0.88rem;
+  opacity: 0.8;
+}
+
+.paginacja-przyciski {
+  display: flex;
+  align-items: center;
+  gap: var(--odstep-1);
+}
+
+.przycisk-paginacji {
+  background-color: var(--kolor-powierzchnia);
+  border: 1px solid var(--kolor-obramowanie);
+  color: var(--kolor-tekst);
+  padding: 6px 14px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  border-radius: var(--promien);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.przycisk-paginacji:hover:not(:disabled) {
+  border-color: var(--kolor-glowny);
+  color: var(--kolor-glowny);
+  background-color: rgba(29, 78, 216, 0.05);
+}
+
+.przycisk-paginacji.aktywny {
+  background-color: var(--kolor-glowny);
+  border-color: var(--kolor-glowny);
+  color: #ffffff;
+}
+
+.przycisk-paginacji:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ==========================================================
+   Dopasowanie responsywne dla modułu tabeli
+   ========================================================== */
+
+@media (max-width: 992px) {
+  .siatka-filtrow {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .tytul-podstrony {
+    font-size: 1.85rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .siatka-filtrow {
+    grid-template-columns: 1fr;
+  }
+
+  .belka-akcji-filtrow {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .przyciski-akcji-filtrow {
+    width: 100%;
+  }
+
+  .przyciski-akcji-filtrow .przycisk {
+    width: 100%;
+  }
+
+  .pasek-stanu-tabeli {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .tabela-paginacja {
+    flex-direction: column;
+    align-items: center;
+  }
+}
