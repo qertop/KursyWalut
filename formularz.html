@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Formularz powiadomień i alertów kursowych NBP – skonfiguruj powiadomienia e-mail lub SMS po osiągnięciu docelowego progu kursu waluty.">
+  <title>Konfigurator Alertu Kursowego NBP – Powiadomienia | KursyWalut</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Główny nagłówek witryny z logo, nawigacją i przełącznikiem motywu -->
+  <header class="naglowek-glowny">
+    <div class="kontener naglowek-kontener">
+      <a href="index.html" class="logo-link" aria-label="Strona główna KursyWalut">
+        <img src="img/logo.svg" alt="Logo KursyWalut" class="logo-obrazek" width="40" height="40">
+        <span class="logo-tekst">Kursy<strong>Walut</strong></span>
+      </a>
+
+      <nav class="nawigacja-glowna" aria-label="Główne menu nawigacyjne">
+        <ul class="menu-lista">
+          <li class="menu-element"><a href="index.html" class="menu-link">Strona główna</a></li>
+          <li class="menu-element"><a href="dane.html" class="menu-link">Tabela kursów</a></li>
+          <li class="menu-element"><a href="analiza.html" class="menu-link">Analiza i wykresy</a></li>
+          <li class="menu-element"><a href="formularz.html" class="menu-link aktywny" aria-current="page">Alert kursowy</a></li>
+          <li class="menu-element"><a href="o-projekcie.html" class="menu-link">O projekcie</a></li>
+        </ul>
+      </nav>
+
+      <div class="akcje-naglowka">
+        <button type="button" id="przelacznik-motywu" class="przycisk-motyw" aria-label="Przełącz motyw jasny / ciemny">
+          🌙 Motyw ciemny
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Pasek informacyjny z datą notowań NBP -->
+  <div class="pasek-info" role="region" aria-label="Informacja o aktualności notowań">
+    <div class="kontener pasek-info-kontener">
+      <span class="status-kropka" aria-hidden="true"></span>
+      <p class="status-tekst">
+        Oficjalne notowania Narodowego Banku Polskiego (Tabela A i C) | Ostatnia aktualizacja danych: <strong>9 listopada 2026 r.</strong>
+      </p>
+    </div>
+  </div>
+
+  <!-- Główna zawartość podstrony z formularzem -->
+  <main class="glowna-zawartosc">
+    <div class="kontener">
+
+      <!-- Okruszki chleba (breadcrumbs) -->
+      <nav class="okruszki" aria-label="Ścieżka powrotu">
+        <ol class="okruszki-lista">
+          <li><a href="index.html">Strona główna</a></li>
+          <li aria-current="page">Alert kursowy</li>
+        </ol>
+      </nav>
+
+      <!-- Nagłówek podstrony -->
+      <header class="podstrona-naglowek">
+        <span class="nadtytul">Automatyczne powiadomienia rynkowe</span>
+        <h1 class="tytul-podstrony">Konfigurator alertu kursowego i powiadomień</h1>
+        <p class="podstrona-opis">
+          Ustaw bezpłatne powiadomienie o zmianie kursu wybranej waluty. Gdy kurs średni, sprzedaży lub kupna NBP osiągnie zdefiniowany próg, otrzymasz natychmiastowy komunikat e-mail lub SMS tuż po oficjalnej publikacji tabeli.
+        </p>
+      </header>
+
+      <div class="uklad-formularza-siatka">
+        
+        <!-- Główna sekcja formularza zgłoszeniowego -->
+        <section class="panel-formularza-glowny" aria-labelledby="naglowek-formularza">
+          <header class="panel-formularza-naglowek">
+            <h2 id="naglowek-formularza" class="sekcja-tytul-maly">Formularz zlecenia monitorowania kursu</h2>
+            <p class="podpowiedz-formularza">Wypełnij wszystkie wymagane pola oznaczone gwiazdką (*)</p>
+          </header>
+
+          <!-- Komunikat walidacji / błędu -->
+          <div id="alert-komunikat" class="alert-komunikat" role="alert" aria-live="assertive" hidden></div>
+
+          <form id="formularz-alertu" class="formularz-alertu" novalidate>
+            
+            <!-- GRUPA 1: Dane kontaktowe i kanał powiadomień -->
+            <fieldset class="grupa-formularza">
+              <legend class="legenda-formularza">1. Dane kontaktowe i kanał powiadomień</legend>
+
+              <div class="siatka-pol-dwa-wiersze">
+                <div class="grupa-pol">
+                  <label for="alert-nazwisko" class="etykieta-pola">Imię i nazwisko <span class="znak-wymagane" aria-hidden="true">*</span>:</label>
+                  <input type="text" id="alert-nazwisko" name="nazwisko" class="pole-tekstowe" required minlength="3" maxlength="60" placeholder="np. Jan Kowalski" autocomplete="name">
+                  <span class="pole-podpowiedz">Minimum 3 znaki, imię i nazwisko osoby zlecającej</span>
+                </div>
+
+                <div class="grupa-pol">
+                  <label for="alert-email" class="etykieta-pola">Adres e-mail <span class="znak-wymagane" aria-hidden="true">*</span>:</label>
+                  <input type="email" id="alert-email" name="email" class="pole-tekstowe" required placeholder="np. jan.kowalski@example.com" autocomplete="email">
+                  <span class="pole-podpowiedz">Na ten adres wyślemy powiadomienie o przekroczeniu progu</span>
+                </div>
+              </div>
+
+              <div class="siatka-pol-dwa-wiersze">
+                <div class="grupa-pol">
+                  <label for="alert-telefon" class="etykieta-pola">Numer telefonu komórkowego:</label>
+                  <input type="tel" id="alert-telefon" name="telefon" class="pole-tekstowe" placeholder="np. 600 123 456" pattern="^(\+48\s?)?[0-9]{3}[\s-]?[0-9]{3}[\s-]?[0-9]{3}$" autocomplete="tel">
+                  <span class="pole-podpowiedz">Wymagany w przypadku wyboru powiadomień SMS</span>
+                </div>
+
+                <div class="grupa-pol">
+                  <span class="etykieta-pola">Preferowany kanał dostarczenia <span class="znak-wymagane" aria-hidden="true">*</span>:</span>
+                  <div class="opcje-wyboru-radio" role="radiogroup" aria-label="Wybierz kanał powiadomienia">
+                    <label class="opcja-radio-kontener">
+                      <input type="radio" name="kanal" value="email" checked>
+                      <span class="radio-tekst">Tylko E-mail</span>
+                    </label>
+                    <label class="opcja-radio-kontener">
+                      <input type="radio" name="kanal" value="sms">
+                      <span class="radio-tekst">Tylko SMS</span>
+                    </label>
+                    <label class="opcja-radio-kontener">
+                      <input type="radio" name="kanal" value="oba">
+                      <span class="radio-tekst">E-mail oraz SMS</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+
+            <!-- GRUPA 2: Parametry monitorowanej waluty i progi alertu -->
+            <fieldset class="grupa-formularza">
+              <legend class="legenda-formularza">2. Parametry walutowe i warunki alertu</legend>
+
+              <div class="siatka-pol-trzy-kolumny">
+                <div class="grupa-pol">
+                  <label for="alert-waluta" class="etykieta-pola">Monitorowana waluta <span class="znak-wymagane" aria-hidden="true">*</span>:</label>
+                  <select id="alert-waluta" name="waluta" class="pole-wyboru" required>
+                    <option value="" disabled selected>-- Wybierz walutę --</option>
+                    <option value="EUR">EUR - Euro (kurs akt.: 4.3873 zł)</option>
+                    <option value="USD">USD - Dolar amerykański (kurs akt.: 3.9199 zł)</option>
+                    <option value="GBP">GBP - Funt szterling (kurs akt.: 5.2593 zł)</option>
+                    <option value="CHF">CHF - Frank szwajcarski (kurs akt.: 4.7925 zł)</option>
+                    <option value="NOK">NOK - Korona norweska (kurs akt.: 0.4179 zł)</option>
+                    <option value="SEK">SEK - Korona szwedzka (kurs akt.: 0.3989 zł)</option>
+                    <option value="CZK">CZK - Korona czeska (kurs akt.: 0.1802 zł)</option>
+                    <option value="HUF">100 HUF - Forint węgierski (kurs akt.: 1.2080 zł)</option>
+                    <option value="JPY">100 JPY - Jen japoński (kurs akt.: 2.5840 zł)</option>
+                    <option value="CAD">CAD - Dolar kanadyjski (kurs akt.: 2.8712 zł)</option>
+                  </select>
+                </div>
+
+                <div class="grupa-pol">
+                  <label for="alert-rodzaj-kursu" class="etykieta-pola">Podstawa notowania <span class="znak-wymagane" aria-hidden="true">*</span>:</label>
+                  <select id="alert-rodzaj-kursu" name="rodzajKursu" class="pole-wyboru" required>
+                    <option value="sredni" selected>Kurs średni NBP (Tabela A)</option>
+                    <option value="sprzedaz">Kurs sprzedaży NBP (Tabela C)</option>
+                    <option value="kupno">Kurs kupna NBP (Tabela C)</option>
+                  </select>
+                </div>
+
+                <div class="grupa-pol">
+                  <label for="alert-kierunek" class="etykieta-pola">Warunek aktywacji <span class="znak-wymagane" aria-hidden="true">*</span>:</label>
+                  <select id="alert-kierunek" name="kierunek" class="pole-wyboru" required>
+                    <option value="powyzej" selected>Kurs wzrośnie powyżej (&ge;)</option>
+                    <option value="ponizej">Kurs spadnie poniżej (&le;)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="siatka-pol-trzy-kolumny">
+                <div class="grupa-pol">
+                  <label for="alert-prog" class="etykieta-pola">Docelowy próg kursowy (PLN) <span class="znak-wymagane" aria-hidden="true">*</span>:</label>
+                  <input type="number" id="alert-prog" name="prog" class="pole-tekstowe" required min="0.0100" max="100.0000" step="0.0001" placeholder="np. 4.4500">
+                  <span class="pole-podpowiedz">Dokładność do 4 miejsc po przecinku</span>
+                </div>
+
+                <div class="grupa-pol">
+                  <label for="alert-kwota" class="etykieta-pola">Planowana kwota wymiany:</label>
+                  <input type="number" id="alert-kwota" name="kwota" class="pole-tekstowe" min="10" max="10000000" step="10" placeholder="np. 2500">
+                  <span class="pole-podpowiedz">Opcjonalnie: obliczy szacunkową wartość w PLN</span>
+                </div>
+
+                <div class="grupa-pol">
+                  <label for="alert-data-waznosci" class="etykieta-pola">Ważność alertu do <span class="znak-wymagane" aria-hidden="true">*</span>:</label>
+                  <input type="date" id="alert-data-waznosci" name="dataWaznosci" class="pole-tekstowe" required min="2026-11-10" max="2027-11-10" value="2026-12-10">
+                  <span class="pole-podpowiedz">Maksymalnie 1 rok od dnia dzisiejszego</span>
+                </div>
+              </div>
+            </fieldset>
+
+            <!-- GRUPA 3: Częstotliwość, notatki i zgody regulaminowe -->
+            <fieldset class="grupa-formularza">
+              <legend class="legenda-formularza">3. Konfiguracja powiadomień i zgody</legend>
+
+              <div class="siatka-pol-dwa-wiersze">
+                <div class="grupa-pol">
+                  <label for="alert-czestotliwosc" class="etykieta-pola">Częstotliwość sprawdzania tabeli:</label>
+                  <select id="alert-czestotliwosc" name="czestotliwosc" class="pole-wyboru">
+                    <option value="natychmiast" selected>Natychmiast po publikacji tabeli NBP (ok. 12:00)</option>
+                    <option value="raz-dziennie">Raport dzienny zbiorczy (o godz. 17:00)</option>
+                    <option value="jednorazowo">Alert jednorazowy (wyłącz po pierwszym spełnieniu)</option>
+                  </select>
+                </div>
+
+                <div class="grupa-pol">
+                  <label for="alert-uwagi" class="etykieta-pola">Własna notatka do alertu (opcjonalnie):</label>
+                  <textarea id="alert-uwagi" name="uwagi" class="pole-obszar-tekstu" rows="2" maxlength="250" placeholder="np. Planowany zakup euro na wyjazd urlopowy lub zapłata faktury..."></textarea>
+                  <span class="pole-podpowiedz">Maksymalnie 250 znaków</span>
+                </div>
+              </div>
+
+              <!-- Zgody (checkbox) -->
+              <div class="sekcja-zgod">
+                <label class="opcja-checkbox-kontener">
+                  <input type="checkbox" id="alert-zgoda-regulamin" name="zgodaRegulamin" required>
+                  <span class="checkbox-tekst">
+                    Oświadczam, że zapoznałem się z zasadami serwisu i akceptuję przetwarzanie danych w celu wysyłki alertów kursowych <span class="znak-wymagane" aria-hidden="true">*</span>
+                  </span>
+                </label>
+
+                <label class="opcja-checkbox-kontener">
+                  <input type="checkbox" id="alert-zgoda-marketing" name="zgodaMarketing">
+                  <span class="checkbox-tekst">
+                    Chcę otrzymywać cotygodniowy biuletyn analityczny z podsumowaniem trendów rynkowych NBP (opcjonalnie)
+                  </span>
+                </label>
+              </div>
+            </fieldset>
+
+            <!-- Przyciski akcji formularza -->
+            <div class="belka-akcji-formularza">
+              <button type="submit" id="przycisk-wyslij-alert" class="przycisk przycisk-glowny">
+                Aktywuj alert kursowy
+              </button>
+              <button type="reset" id="przycisk-reset-alertu" class="przycisk przycisk-drugorzedny">
+                Wyczyść pola
+              </button>
+            </div>
+
+          </form>
+
+          <!-- Karta podsumowania (wyświetlana w obrębie strony po wysłaniu formularza) -->
+          <article id="alert-podsumowanie" class="karta-podsumowania-alertu" aria-live="polite" hidden>
+            <div class="podsumowanie-naglowek">
+              <div class="podsumowanie-status-ikona" aria-hidden="true">&#x2714;</div>
+              <div>
+                <h3 class="podsumowanie-tytul">Alert kursowy został pomyślnie zarejestrowany!</h3>
+                <p class="podsumowanie-podtytul">Poniżej znajduje się podsumowanie parametrów Twojego zlecenia.</p>
+              </div>
+            </div>
+
+            <div class="siatka-danych-podsumowania">
+              <div class="pozycja-podsumowania">
+                <span class="etykieta-podsumowania">Osoba zlecająca:</span>
+                <strong id="podsumowanie-osoba" class="wartosc-podsumowania">-</strong>
+              </div>
+              <div class="pozycja-podsumowania">
+                <span class="etykieta-podsumowania">Kanał kontaktu:</span>
+                <strong id="podsumowanie-kontakt" class="wartosc-podsumowania">-</strong>
+              </div>
+              <div class="pozycja-podsumowania">
+                <span class="etykieta-podsumowania">Para walutowa:</span>
+                <strong id="podsumowanie-waluta" class="wartosc-podsumowania">-</strong>
+              </div>
+              <div class="pozycja-podsumowania">
+                <span class="etykieta-podsumowania">Warunek i próg docelowy:</span>
+                <strong id="podsumowanie-warunek" class="wartosc-podsumowania wartosc-akcent">-</strong>
+              </div>
+              <div class="pozycja-podsumowania">
+                <span class="etykieta-podsumowania">Ważność zlecenia:</span>
+                <strong id="podsumowanie-termin" class="wartosc-podsumowania">-</strong>
+              </div>
+              <div class="pozycja-podsumowania">
+                <span class="etykieta-podsumowania">Szacowana wartość transakcji:</span>
+                <strong id="podsumowanie-wartosc-szacowana" class="wartosc-podsumowania">-</strong>
+              </div>
+            </div>
+
+            <div class="podsumowanie-akcja-belka">
+              <button type="button" id="przycisk-nowy-alert" class="przycisk przycisk-drugorzedny">
+                + Skonfiguruj kolejny alert
+              </button>
+            </div>
+          </article>
+        </section>
+
+        <!-- Pasek boczny (aside): Jak działają alerty i FAQ -->
+        <aside class="panel-boczny-pomoc" aria-labelledby="naglowek-pomocy">
+          <div class="karta-pomocy">
+            <h3 id="naglowek-pomocy" class="pomoc-tytul">Jak działa system alertów?</h3>
+            <ol class="lista-krokow-alertu">
+              <li>
+                <strong>1. Pobranie danych NBP</strong>
+                <p>Każdego dnia roboczego około godziny 12:15 nasz system pobiera świeżą Tabelę A i C kursów z Narodowego Banku Polskiego.</p>
+              </li>
+              <li>
+                <strong>2. Weryfikacja reguł</strong>
+                <p>Sprawdzamy zdefiniowane przez Ciebie progi cenowe względem oficjalnego kursu średniego, kupna lub sprzedaży.</p>
+              </li>
+              <li>
+                <strong>3. Natychmiastowe powiadomienie</strong>
+                <p>W chwili spełnienia zadanego warunku wysyłamy bezpłatną wiadomość e-mail lub SMS z bezpośrednim linkiem do wykresu.</p>
+              </li>
+            </ol>
+          </div>
+
+          <div class="karta-pomocy karta-faq-skrot">
+            <h4 class="pomoc-podtytul">Najczęściej zadawane pytania (FAQ)</h4>
+            <div class="faq-element">
+              <strong>Czy usługa powiadomień jest płatna?</strong>
+              <p>Nie, powiadomienia e-mail i podstawowe alerty SMS w ramach projektu są w 100% bezpłatne.</p>
+            </div>
+            <div class="faq-element">
+              <strong>Kiedy publikowane są kursy walut?</strong>
+              <p>Tabela A (kursy średnie) publikowana jest w dni robocze między 11:45 a 12:15. W weekendy i święta NBP nie publikuje tabel.</p>
+            </div>
+          </div>
+        </aside>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Stopka witryny -->
+  <footer class="stopka-glowna">
+    <div class="kontener stopka-kontener">
+      <div class="stopka-kolumna">
+        <div class="logo-stopka">
+          <img src="img/logo.svg" alt="KursyWalut" width="32" height="32">
+          <span>Kursy<strong>Walut</strong></span>
+        </div>
+        <p class="stopka-opis">
+          Projekt witryny internetowej prezentującej i analizującej zbiór danych kursów walut NBP.
+          Kierunek: Inżynieria i analiza danych | III rok | Rok akademicki 2026/2027.
+        </p>
+      </div>
+
+      <div class="stopka-kolumna">
+        <h4 class="stopka-naglowek">Podstrony serwisu</h4>
+        <ul class="stopka-lista">
+          <li><a href="index.html">Strona główna</a></li>
+          <li><a href="dane.html">Tabela kursów</a></li>
+          <li><a href="analiza.html">Analiza i wykresy</a></li>
+          <li><a href="formularz.html">Alert kursowy</a></li>
+          <li><a href="o-projekcie.html">O projekcie i autorach</a></li>
+        </ul>
+      </div>
+
+      <div class="stopka-kolumna">
+        <h4 class="stopka-naglowek">Źródła danych</h4>
+        <ul class="stopka-lista">
+          <li><a href="https://api.nbp.pl/" target="_blank" rel="noopener noreferrer">Oficjalne API NBP</a></li>
+          <li><a href="https://nbp.pl/statystyka-i-sprawozdawczosc/kursy/" target="_blank" rel="noopener noreferrer">Archiwum kursów NBP</a></li>
+          <li><a href="https://www.chartjs.org/" target="_blank" rel="noopener noreferrer">Biblioteka Chart.js</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="stopka-dol">
+      <div class="kontener stopka-dol-kontener">
+        <p>&copy; 2026 KursyWalut. Projekt zrealizowany w ramach przedmiotu Aplikacje Internetowe.</p>
+        <p class="stopka-technologie">HTML5 &bull; CSS3 &bull; Vanilla JavaScript &bull; Chart.js</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Dołączenie skryptu wspólnego (motyw jasny/ciemny) oraz logiki formularza -->
+  <script src="js/common.js"></script>
+  <script src="js/formularz.js"></script>
+</body>
+</html>
