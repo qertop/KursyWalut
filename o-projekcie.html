@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="O projekcie KursyWalut – cele, architektura techniczna, źródła danych API NBP, zespół projektowy oraz dokumentacja wdrożeniowa.">
+  <title>O Projekcie i Źródła Danych | KursyWalut</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Główny nagłówek witryny z logo, nawigacją i przełącznikiem motywu -->
+  <header class="naglowek-glowny">
+    <div class="kontener naglowek-kontener">
+      <a href="index.html" class="logo-link" aria-label="Strona główna KursyWalut">
+        <img src="img/logo.svg" alt="Logo KursyWalut" class="logo-obrazek" width="40" height="40">
+        <span class="logo-tekst">Kursy<strong>Walut</strong></span>
+      </a>
+
+      <nav class="nawigacja-glowna" aria-label="Główne menu nawigacyjne">
+        <ul class="menu-lista">
+          <li class="menu-element"><a href="index.html" class="menu-link">Strona główna</a></li>
+          <li class="menu-element"><a href="dane.html" class="menu-link">Tabela kursów</a></li>
+          <li class="menu-element"><a href="analiza.html" class="menu-link">Analiza i wykresy</a></li>
+          <li class="menu-element"><a href="formularz.html" class="menu-link">Alert kursowy</a></li>
+          <li class="menu-element"><a href="o-projekcie.html" class="menu-link aktywny" aria-current="page">O projekcie</a></li>
+        </ul>
+      </nav>
+
+      <div class="akcje-naglowka">
+        <button type="button" id="przelacznik-motywu" class="przycisk-motyw" aria-label="Przełącz motyw jasny / ciemny">
+          🌙 Motyw ciemny
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Pasek informacyjny z datą notowań NBP -->
+  <div class="pasek-info" role="region" aria-label="Informacja o aktualności notowań">
+    <div class="kontener pasek-info-kontener">
+      <span class="status-kropka" aria-hidden="true"></span>
+      <p class="status-tekst">
+        Oficjalne notowania Narodowego Banku Polskiego (Tabela A i C) | Ostatnia aktualizacja danych: <strong>9 listopada 2026 r.</strong>
+      </p>
+    </div>
+  </div>
+
+  <!-- Główna zawartość podstrony "O projekcie" -->
+  <main class="glowna-zawartosc">
+    <div class="kontener">
+
+      <!-- Okruszki chleba (breadcrumbs) -->
+      <nav class="okruszki" aria-label="Ścieżka powrotu">
+        <ol class="okruszki-lista">
+          <li><a href="index.html">Strona główna</a></li>
+          <li aria-current="page">O projekcie</li>
+        </ol>
+      </nav>
+
+      <!-- Nagłówek podstrony -->
+      <header class="podstrona-naglowek">
+        <span class="nadtytul">Aplikacje Internetowe | Rok akademicki 2026/2027</span>
+        <h1 class="tytul-podstrony">O projekcie KursyWalut i architekturze systemu</h1>
+        <p class="podstrona-opis">
+          Interaktywna platforma internetowa dedykowana prezentacji, analizie statystycznej oraz monitorowaniu notowań walut obcych publikowanych przez Narodowy Bank Polski. Projekt łączy inżynierię oprogramowania front-endowego z metodami eksploracji i analizy danych finansowych.
+        </p>
+      </header>
+
+      <!-- Sekcja 1: Metryka projektu i cele edukacyjne -->
+      <section class="sekcja-o-projekcie" aria-labelledby="naglowek-cele">
+        <div class="karta-informacyjna-pelna">
+          <h2 id="naglowek-cele" class="sekcja-tytul-maly">1. Założenia i cel realizacji</h2>
+          <p>
+            Celem projektu jest praktyczne wykorzystanie standardów front-endowych: <strong>HTML5</strong>, <strong>CSS3</strong> oraz <strong>czystego JavaScript (Vanilla JS)</strong>, bez uciekania się do ciężkich frameworków programistycznych (takich jak React, Angular czy Vue). Rozwiązanie zostało zaprojektowane z myślą o uruchomieniu w dowolnej typowej przeglądarce internetowej bezpośrednio z systemu plików (plik <code>index.html</code>) bez konieczności instalowania lokalnego serwera HTTP.
+          </p>
+
+          <div class="siatka-metryki-projektu">
+            <div class="element-metryki">
+              <span class="etykieta-metryki">Przedmiot:</span>
+              <strong class="wartosc-metryki">Aplikacje Internetowe</strong>
+            </div>
+            <div class="element-metryki">
+              <span class="etykieta-metryki">Kierunek studiów:</span>
+              <strong class="wartosc-metryki">Inżynieria i analiza danych</strong>
+            </div>
+            <div class="element-metryki">
+              <span class="etykieta-metryki">Rok studiów:</span>
+              <strong class="wartosc-metryki">III rok | Semestr zimowy</strong>
+            </div>
+            <div class="element-metryki">
+              <span class="etykieta-metryki">Temat projektu:</span>
+              <strong class="wartosc-metryki">Kursy walut – notowania historyczne i bieżące</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Sekcja 2: Architektura podstron i modułów -->
+      <section class="sekcja-o-projekcie" aria-labelledby="naglowek-struktura">
+        <header class="sekcja-naglowek-blok">
+          <h2 id="naglowek-struktura" class="sekcja-tytul">2. Architektura witryny (5 logicznych podstron)</h2>
+          <p class="sekcja-podtytul">Każdy widok realizuje ściśle określone funkcjonalności biznesowe i analityczne</p>
+        </header>
+
+        <div class="siatka-modulow-projektu">
+          <article class="karta-modulu">
+            <div class="modul-naglowek">
+              <span class="modul-ikona" aria-hidden="true">🏠</span>
+              <div>
+                <h3 class="modul-tytul">Strona główna (index.html)</h3>
+                <span class="modul-plik">Plik widoku: index.html</span>
+              </div>
+            </div>
+            <p class="modul-opis">
+              Centrum dowodzenia serwisu: dynamiczny podgląd 8 popularnych walut (EUR, USD, GBP, CHF, NOK, SEK, CZK, HUF) ze zmianami 24h, interaktywny kalkulator wymiany walut po kursie z wybranego dnia oraz podgląd mini-wykresu trendu.
+            </p>
+          </article>
+
+          <article class="karta-modulu">
+            <div class="modul-naglowek">
+              <span class="modul-ikona" aria-hidden="true">📊</span>
+              <div>
+                <h3 class="modul-tytul">Tabela kursów (dane.html)</h3>
+                <span class="modul-plik">Plik widoku: dane.html</span>
+              </div>
+            </div>
+            <p class="modul-opis">
+              Zbiór 20 oficjalnych pozycji walutowych NBP (Tabela A i C). Wyposażona w zaawansowane filtry wielokryterialne (wyszukiwanie tekstowe, selektor waluty, zakres dat), szybkie tagi kategorii oraz pełne sortowanie po każdej kolumnie.
+            </p>
+          </article>
+
+          <article class="karta-modulu">
+            <div class="modul-naglowek">
+              <span class="modul-ikona" aria-hidden="true">📈</span>
+              <div>
+                <h3 class="modul-tytul">Analiza i wykresy (analiza.html)</h3>
+                <span class="modul-plik">Plik widoku: analiza.html</span>
+              </div>
+            </div>
+            <p class="modul-opis">
+              Dashboard statystyczny z wyliczonymi wskaźnikami (Min, Max, Średnia, Zmiana %, Rozstęp), interaktywnym wykresem Chart.js ze zmianą typu widoku, rankingiem dynamiki TOP 3 oraz narzędziem porównywarki dwóch walut.
+            </p>
+          </article>
+
+          <article class="karta-modulu">
+            <div class="modul-naglowek">
+              <span class="modul-ikona" aria-hidden="true">🔔</span>
+              <div>
+                <h3 class="modul-tytul">Alert kursowy (formularz.html)</h3>
+                <span class="modul-plik">Plik widoku: formularz.html</span>
+              </div>
+            </div>
+            <p class="modul-opis">
+              Zaawansowany konfigurator powiadomień zawierający 14 różnorodnych kontrolek, pogrupowanych w 3 sekcje <code>fieldset</code>. Posiada walidację HTML5 oraz 3 dodatkowe reguły JS wraz z dynamicznym podsumowaniem na stronie.
+            </p>
+          </article>
+
+          <article class="karta-modulu">
+            <div class="modul-naglowek">
+              <span class="modul-ikona" aria-hidden="true">ℹ️</span>
+              <div>
+                <h3 class="modul-tytul">O projekcie (o-projekcie.html)</h3>
+                <span class="modul-plik">Plik widoku: o-projekcie.html</span>
+              </div>
+            </div>
+            <p class="modul-opis">
+              Metadane projektu, wykaz technologii, szczegółowa specyfikacja źródeł danych NBP, podział ról w zespole projektowym oraz kompletna lista kontrolna spełnienia wymagań regulaminowych.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <!-- Sekcja 3: Technologie i narzędzia -->
+      <section class="sekcja-o-projekcie" aria-labelledby="naglowek-technologie">
+        <div class="karta-informacyjna-pelna">
+          <h2 id="naglowek-technologie" class="sekcja-tytul-maly">3. Zastosowane technologie i standardy</h2>
+          <div class="siatka-technologii">
+            <div class="technologia-boks">
+              <div class="tech-naglowek">
+                <span class="tech-badge badge-html">HTML5</span>
+                <strong>Semantyka i Dostępność</strong>
+              </div>
+              <p>Struktura oparta na znacznikach semantycznych (<code>header</code>, <code>nav</code>, <code>main</code>, <code>section</code>, <code>article</code>, <code>aside</code>, <code>figure</code>, <code>footer</code>). Pełne powiązanie etykiet <code>label</code> z kontrolkami oraz atrybuty ARIA.</p>
+            </div>
+
+            <div class="technologia-boks">
+              <div class="tech-naglowek">
+                <span class="tech-badge badge-css">CSS3</span>
+                <strong>Nowoczesny Design System</strong>
+              </div>
+              <p>System zmiennych CSS (Custom Properties), zaawansowane siatki CSS Grid i układy Flexbox, płynne przejścia <code>transition</code>, animacje kluczowe oraz responsywność (4 reguły <code>@media</code> dla urządzeń mobilnych).</p>
+            </div>
+
+            <div class="technologia-boks">
+              <div class="tech-naglowek">
+                <span class="tech-badge badge-js">Vanilla JS</span>
+                <strong>Czysty JavaScript (ES6+)</strong>
+              </div>
+              <p>Manipulacja drzewem DOM przez <code>querySelector</code>, obsługa zdarzeń (<code>click</code>, <code>input</code>, <code>change</code>, <code>submit</code>), walidacja biznesowa, trwałe zapamiętywanie motywu w <code>localStorage</code> i ochrona przed XSS (<code>textContent</code>).</p>
+            </div>
+
+            <div class="technologia-boks">
+              <div class="tech-naglowek">
+                <span class="tech-badge badge-chart">Chart.js</span>
+                <strong>Wizualizacja szeregów czasowych</strong>
+              </div>
+              <p>Lekka biblioteka typu open-source do renderowania wykresów notowań w elemencie <code>&lt;canvas&gt;</code>, obsługująca tryby liniowe, słupkowe oraz obszarowe.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Sekcja 4: Źródła danych i API NBP -->
+      <section class="sekcja-o-projekcie" aria-labelledby="naglowek-zrodla">
+        <div class="karta-informacyjna-pelna">
+          <h2 id="naglowek-zrodla" class="sekcja-tytul-maly">4. Źródła danych i metodologia NBP</h2>
+          <p>
+            Serwis korzysta z danych publikowanych przez <strong>Narodowy Bank Polski</strong> na podstawie ustawy o NBP oraz uchwał Zarządu NBP:
+          </p>
+          <ul class="lista-cech">
+            <li>
+              <strong>Tabela A kursów średnich:</strong> Publikowana w każdy dzień roboczy między godziną 11:45 a 12:15. Obejmuje 33 waluty obce kwotowane względem złotego (PLN). Kursy wyliczane są z dokładnością do 4 miejsc po przecinku.
+            </li>
+            <li>
+              <strong>Tabela C kursów kupna i sprzedaży:</strong> Publikowana w każdy dzień roboczy do godziny 8:15. Definiuje rynkowe kursy transakcyjne oraz pozwala na badanie wielkości spreadu walutowego.
+            </li>
+            <li>
+              <strong>Oficjalne API NBP:</strong> Dane udostępniane są w formacie JSON i XML pod adresem <a href="https://api.nbp.pl/" target="_blank" rel="noopener noreferrer">https://api.nbp.pl/</a>, z zachowaniem pełnej zgodności z archiwum kursów banku centralnego.
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Sekcja 5: Zespół projektowy i podział ról -->
+      <section class="sekcja-o-projekcie" aria-labelledby="naglowek-zespol">
+        <div class="karta-informacyjna-pelna">
+          <h2 id="naglowek-zespol" class="sekcja-tytul-maly">5. Zespół projektowy i podział odpowiedzialności</h2>
+          <p>
+            Zgodnie z zasadami określonymi w kontrakcie projektowym (<code>CONTRIBUTING.md</code>), prace zostały podzielone na dwa komplementarne obszary:
+          </p>
+
+          <div class="siatka-rol-zespolu">
+            <article class="karta-roli">
+              <div class="rola-naglowek">
+                <span class="odznaka-roli odznaka-rola-b">Osoba B (Front-end &amp; Design)</span>
+                <h3 class="rola-tytul">Architektura widoków i stylizacja</h3>
+              </div>
+              <ul class="lista-roli">
+                <li>Opracowanie semantycznej struktury 5 plików HTML5 (<code>index.html</code>, <code>dane.html</code>, <code>analiza.html</code>, <code>formularz.html</code>, <code>o-projekcie.html</code>).</li>
+                <li>Implementacja kompletnego arkusza stylów <code>css/style.css</code> (zmienne motywu, Flexbox, Grid, responsywność).</li>
+                <li>Przygotowanie wektorowych grafik SVG w katalogu <code>img/</code> (logo, ilustracje hero, 20 flag państw).</li>
+                <li>Implementacja logiki walidacji formularza i generowania podsumowania (<code>js/formularz.js</code>).</li>
+                <li>Wdrożenie mechanizmu przełączania motywu jasnego/ciemnego (<code>js/common.js</code>).</li>
+              </ul>
+            </article>
+
+            <article class="karta-roli">
+              <div class="rola-naglowek">
+                <span class="odznaka-roli odznaka-rola-a">Osoba A (Data &amp; Logic)</span>
+                <h3 class="rola-tytul">Logika danych, algorytmy i wykresy</h3>
+              </div>
+              <ul class="lista-roli">
+                <li>Definicja zbioru danych walutowych w tablicy obiektów JavaScript (<code>js/data.js</code>).</li>
+                <li>Algorytmy filtrowania wielokryterialnego i dynamicznego sortowania tabeli notowań (<code>js/table.js</code>).</li>
+                <li>Obliczenia wskaźników statystycznych (Min, Max, Średnia, Zmiana) oraz konfiguracja wykresów (<code>js/analiza.js</code>).</li>
+                <li>Matematyczna logika przeliczania walut w kalkulatorze (<code>js/kalkulator.js</code>).</li>
+                <li>Integracja wywołań API NBP lub lokalnego zbioru rekordów JSON.</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- Sekcja boczna (aside): Instrukcja uruchomienia -->
+      <aside class="panel-informacyjny" aria-labelledby="naglowek-uruchomienie">
+        <div class="panel-informacyjny-tresc">
+          <h3 id="naglowek-uruchomienie" class="aside-tytul">Instrukcja uruchomienia projektu</h3>
+          <p>
+            Projekt nie wymaga kompilacji, instalacji środowiska Node.js ani uruchamiania serwera lokalnego. Aby uruchomić aplikację:
+          </p>
+          <ol class="lista-cech">
+            <li>Sklonuj lub pobierz repozytorium na dysk komputera.</li>
+            <li>Otwórz plik <code>index.html</code> w dowolnej nowoczesnej przeglądarce internetowej (Google Chrome, Mozilla Firefox, Microsoft Edge, Safari).</li>
+            <li>Nawiguj pomiędzy podstronami za pomocą głównego menu umieszczonego w nagłówku strony.</li>
+          </ol>
+        </div>
+      </aside>
+
+    </div>
+  </main>
+
+  <!-- Stopka witryny -->
+  <footer class="stopka-glowna">
+    <div class="kontener stopka-kontener">
+      <div class="stopka-kolumna">
+        <div class="logo-stopka">
+          <img src="img/logo.svg" alt="KursyWalut" width="32" height="32">
+          <span>Kursy<strong>Walut</strong></span>
+        </div>
+        <p class="stopka-opis">
+          Projekt witryny internetowej prezentującej i analizującej zbiór danych kursów walut NBP.
+          Kierunek: Inżynieria i analiza danych | III rok | Rok akademicki 2026/2027.
+        </p>
+      </div>
+
+      <div class="stopka-kolumna">
+        <h4 class="stopka-naglowek">Podstrony serwisu</h4>
+        <ul class="stopka-lista">
+          <li><a href="index.html">Strona główna</a></li>
+          <li><a href="dane.html">Tabela kursów</a></li>
+          <li><a href="analiza.html">Analiza i wykresy</a></li>
+          <li><a href="formularz.html">Alert kursowy</a></li>
+          <li><a href="o-projekcie.html">O projekcie i autorach</a></li>
+        </ul>
+      </div>
+
+      <div class="stopka-kolumna">
+        <h4 class="stopka-naglowek">Źródła danych</h4>
+        <ul class="stopka-lista">
+          <li><a href="https://api.nbp.pl/" target="_blank" rel="noopener noreferrer">Oficjalne API NBP</a></li>
+          <li><a href="https://nbp.pl/statystyka-i-sprawozdawczosc/kursy/" target="_blank" rel="noopener noreferrer">Archiwum kursów NBP</a></li>
+          <li><a href="https://www.chartjs.org/" target="_blank" rel="noopener noreferrer">Biblioteka Chart.js</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="stopka-dol">
+      <div class="kontener stopka-dol-kontener">
+        <p>&copy; 2026 KursyWalut. Projekt zrealizowany w ramach przedmiotu Aplikacje Internetowe.</p>
+        <p class="stopka-technologie">HTML5 &bull; CSS3 &bull; Vanilla JavaScript &bull; Chart.js</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Dołączenie skryptu wspólnego (motyw jasny/ciemny) -->
+  <script src="js/common.js"></script>
+</body>
+</html>

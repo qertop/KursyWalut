@@ -2089,3 +2089,240 @@ img {
     align-items: flex-start;
   }
 }
+
+
+/* ==========================================================
+   Style podstrony "O projekcie" (o-projekcie.html)
+   ========================================================== */
+
+.sekcja-o-projekcie {
+  margin-bottom: var(--odstep-5);
+}
+
+.karta-informacyjna-pelna {
+  background-color: var(--kolor-powierzchnia);
+  border: 1px solid var(--kolor-obramowanie);
+  border-radius: var(--promien);
+  padding: var(--odstep-5);
+  box-shadow: var(--cien);
+  display: flex;
+  flex-direction: column;
+  gap: var(--odstep-4);
+}
+
+.siatka-metryki-projektu {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--odstep-3);
+  margin-top: var(--odstep-2);
+}
+
+.element-metryki {
+  background-color: var(--kolor-tlo);
+  border: 1px solid var(--kolor-obramowanie);
+  border-radius: var(--promien);
+  padding: var(--odstep-3);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.etykieta-metryki {
+  font: var(--tekst-etykieta);
+  opacity: 0.7;
+}
+
+.wartosc-metryki {
+  font-size: 0.98rem;
+  color: var(--kolor-glowny);
+}
+
+[data-theme="dark"] .wartosc-metryki {
+  color: var(--kolor-link);
+}
+
+/* Siatka modułów projektu */
+.siatka-modulow-projektu {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--odstep-4);
+}
+
+.karta-modulu {
+  background-color: var(--kolor-powierzchnia);
+  border: 1px solid var(--kolor-obramowanie);
+  border-radius: var(--promien);
+  padding: var(--odstep-4);
+  box-shadow: var(--cien);
+  display: flex;
+  flex-direction: column;
+  gap: var(--odstep-2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.karta-modulu:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(20, 33, 59, 0.08);
+  border-color: var(--kolor-glowny);
+}
+
+.modul-naglowek {
+  display: flex;
+  align-items: center;
+  gap: var(--odstep-2);
+}
+
+.modul-ikona {
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.modul-tytul {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--kolor-tekst);
+}
+
+.modul-plik {
+  font: var(--tekst-etykieta);
+  opacity: 0.65;
+  display: block;
+}
+
+.modul-opis {
+  font-size: 0.88rem;
+  line-height: 1.55;
+  opacity: 0.85;
+}
+
+/* Siatka technologii */
+.siatka-technologii {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--odstep-4);
+}
+
+.technologia-boks {
+  background-color: var(--kolor-tlo);
+  border: 1px solid var(--kolor-obramowanie);
+  border-radius: var(--promien);
+  padding: var(--odstep-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--odstep-2);
+}
+
+.tech-naglowek {
+  display: flex;
+  align-items: center;
+  gap: var(--odstep-2);
+  font-size: 1rem;
+}
+
+.tech-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  color: #ffffff;
+}
+
+.badge-html { background-color: #e34f26; }
+.badge-css { background-color: #1572b6; }
+.badge-js { background-color: #f7df1e; color: #1a1a1a; }
+.badge-chart { background-color: #ff6384; }
+
+.technologia-boks p {
+  font-size: 0.88rem;
+  line-height: 1.55;
+  opacity: 0.85;
+}
+
+/* Siatka ról zespołu */
+.siatka-rol-zespolu {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--odstep-4);
+}
+
+.karta-roli {
+  background-color: var(--kolor-tlo);
+  border: 1px solid var(--kolor-obramowanie);
+  border-radius: var(--promien);
+  padding: var(--odstep-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--odstep-3);
+}
+
+.rola-naglowek {
+  display: flex;
+  flex-direction: column;
+  gap: var(--odstep-1);
+}
+
+.odznaka-roli {
+  font: var(--tekst-etykieta);
+  font-weight: 700;
+  display: inline-block;
+  align-self: flex-start;
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+
+.odznaka-rola-a {
+  background-color: rgba(14, 165, 164, 0.15);
+  color: var(--kolor-akcent-tekst);
+}
+
+.odznaka-rola-b {
+  background-color: rgba(29, 78, 216, 0.15);
+  color: var(--kolor-link);
+}
+
+.rola-tytul {
+  font-size: 1.15rem;
+  color: var(--kolor-tekst);
+}
+
+.lista-roli {
+  margin-left: var(--odstep-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--odstep-2);
+  font-size: 0.88rem;
+  line-height: 1.5;
+  opacity: 0.9;
+}
+
+/* ==========================================================
+   Responsywność dla podstrony "O projekcie"
+   ========================================================== */
+
+@media (max-width: 992px) {
+  .siatka-metryki-projektu {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .siatka-modulow-projektu {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .siatka-technologii {
+    grid-template-columns: 1fr;
+  }
+
+  .siatka-rol-zespolu {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .siatka-metryki-projektu {
+    grid-template-columns: 1fr;
+  }
+
+  .siatka-modulow-projektu {
+    grid-template-columns: 1fr;
+  }
+}
