@@ -33,10 +33,10 @@ function ustawMotyw(motyw) {
   const przycisk = document.getElementById("przelacznik-motywu");
   if (przycisk) {
     if (motyw === "dark") {
-      przycisk.textContent = "☀️ Motyw jasny";
+      przycisk.textContent = "Motyw jasny";
       przycisk.setAttribute("aria-label", "Przełącz na motyw jasny");
     } else {
-      przycisk.textContent = "🌙 Motyw ciemny";
+      przycisk.textContent = "Motyw ciemny";
       przycisk.setAttribute("aria-label", "Przełącz na motyw ciemny");
     }
   }
