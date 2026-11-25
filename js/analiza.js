@@ -1,6 +1,6 @@
 /**
  * KursyWalut - podstrona analiza.html: wskaźniki statystyczne, główny wykres
- * szeregu czasowego (Chart.js) oraz porównywarka dwóch walut.
+ * szeregu czasowego (Chart.js), ranking TOP 3 wzrostów i spadków oraz porównywarka dwóch walut.
  * Wymaga wcześniejszego załadowania js/data.js (kursy, nazwyWalut, listaWalut, pobierzKursyWaluty).
  */
 
@@ -318,6 +318,120 @@ function odswiezAnalize() {
   narysujWykresGlowny(waluta, rodzaj, notowania, skala);
 }
 
+// Liczba walut pokazywana w każdej kolumnie rankingu
+const ROZMIAR_RANKINGU = 3;
+
+/**
+ * Liczy zmianę kursu średniego każdej waluty w wybranym okresie i wybiera
+ * TOP 3 największych wzrostów (zmiana > 0) oraz TOP 3 największych spadków (zmiana < 0).
+ * @param {number} dni - długość okresu w dniach
+ * @returns {Object} { wzrosty: Array, spadki: Array }, element = { waluta, kurs, procent }
+ */
+function policzRanking(dni) {
+  const wyniki = [];
+  listaWalut().forEach(function (waluta) {
+    const stat = policzStatystyki(notowaniaZOkresu(waluta, dni), "sredni");
+    // Do rankingu potrzebne są co najmniej dwa notowania, żeby policzyć zmianę
+    if (stat && stat.liczba > 1) {
+      wyniki.push({ waluta: waluta, kurs: stat.ostatni.wartosc, procent: stat.zmianaProcent });
+    }
+  });
+  // Od największego wzrostu do największego spadku
+  wyniki.sort(function (a, b) { return b.procent - a.procent; });
+
+  return {
+    wzrosty: wyniki.filter(function (w) { return w.procent > 0; }).slice(0, ROZMIAR_RANKINGU),
+    spadki: wyniki.filter(function (w) { return w.procent < 0; }).reverse().slice(0, ROZMIAR_RANKINGU)
+  };
+}
+
+/**
+ * Tworzy element listy rankingu: flaga, kod i nazwa waluty, bieżący kurs oraz odznaka zmiany.
+ * @param {Object} pozycja - element z policzRanking(): { waluta, kurs, procent }
+ * @returns {HTMLLIElement} gotowy element listy
+ */
+function utworzElementRankingu(pozycja) {
+  const li = document.createElement("li");
+  li.className = "element-rankingu";
+
+  const opisWaluty = document.createElement("div");
+  opisWaluty.className = "ranking-waluta";
+  const flaga = document.createElement("img");
+  flaga.src = "img/flagi/" + pozycja.waluta.toLowerCase() + ".svg";
+  // Flaga jest ozdobą, bo obok stoi kod i nazwa waluty
+  flaga.alt = "";
+  flaga.className = "flaga-ikona";
+  flaga.width = 22;
+  flaga.height = 16;
+  const kod = document.createElement("span");
+  kod.className = "kod-rankingu";
+  kod.textContent = pozycja.waluta;
+  const nazwa = document.createElement("span");
+  nazwa.className = "nazwa-rankingu";
+  nazwa.textContent = nazwyWalut[pozycja.waluta] || "";
+  opisWaluty.append(flaga, kod, nazwa);
+
+  const wynik = document.createElement("div");
+  wynik.className = "ranking-wynik";
+  const kurs = document.createElement("strong");
+  kurs.className = "kurs-rankingu";
+  kurs.textContent = formatujZl(pozycja.kurs, pozycja.kurs);
+  const odznaka = document.createElement("span");
+  odznaka.className = "odznaka-zmiany";
+  ustawOdznake(odznaka, pozycja.procent);
+  wynik.append(kurs, odznaka);
+
+  li.append(opisWaluty, wynik);
+  return li;
+}
+
+/**
+ * Tworzy element listy rankingu z samym komunikatem (np. „Brak danych”).
+ * @param {string} tekst - treść komunikatu
+ * @returns {HTMLLIElement} gotowy element listy
+ */
+function utworzKomunikatRankingu(tekst) {
+  const li = document.createElement("li");
+  li.className = "element-rankingu";
+  li.textContent = tekst;
+  return li;
+}
+
+/**
+ * Zwraca dwie listy rankingu z analiza.html (#ranking-wzrosty, #ranking-spadki).
+ * @returns {Array<HTMLElement>|null} listy albo null, gdy strona ich nie ma
+ */
+function pobierzListyRankingu() {
+  const wzrosty = document.getElementById("ranking-wzrosty");
+  const spadki = document.getElementById("ranking-spadki");
+  return wzrosty && spadki ? [wzrosty, spadki] : null;
+}
+
+/**
+ * Odświeża ranking TOP 3 wzrostów i spadków kursu średniego dla wybranego horyzontu czasowego.
+ */
+function odswiezRanking() {
+  const listy = pobierzListyRankingu();
+  if (!listy) {
+    return;
+  }
+  ustawTekst("#tytul-ranking", "Ranking dynamiki walut (" + stanAnalizy.zakresDni + " dni)");
+
+  const ranking = policzRanking(stanAnalizy.zakresDni);
+  [ranking.wzrosty, ranking.spadki].forEach(function (pozycje, indeks) {
+    listy[indeks].replaceChildren();
+    if (pozycje.length === 0) {
+      listy[indeks].appendChild(utworzKomunikatRankingu(indeks === 0
+        ? "Żadna waluta nie zyskała w tym okresie"
+        : "Żadna waluta nie straciła w tym okresie"));
+      return;
+    }
+    pozycje.forEach(function (pozycja) {
+      listy[indeks].appendChild(utworzElementRankingu(pozycja));
+    });
+  });
+}
+
 /**
  * Tworzy komórkę tabeli porównania z tekstem (opcjonalnie pogrubionym albo jako odznaka zmiany).
  * @param {string} tekst - zawartość
@@ -431,7 +545,7 @@ function zaznaczPrzycisk(selektor, aktywny) {
 }
 
 /**
- * Podpina zdarzenia: wybór waluty i rodzaju, horyzont czasowy, typ wykresu,
+ * Podpina zdarzenia: wybór waluty i rodzaju, horyzont czasowy (także ranking), typ wykresu,
  * przycisk aktualizacji, porównywarkę oraz zmianę motywu (nowe kolory wykresu).
  */
 function podepnijZdarzeniaAnalizy() {
@@ -445,6 +559,7 @@ function podepnijZdarzeniaAnalizy() {
       stanAnalizy.zakresDni = Number(przycisk.dataset.zakres);
       zaznaczPrzycisk(".przycisk-zakres", przycisk);
       odswiezAnalize();
+      odswiezRanking();
       odswiezPorownanie();
     });
   });
@@ -483,6 +598,13 @@ function pokazBrakDanychAnalizy() {
   ustawTekst(".sekcja-wskazniki .sekcja-podtytul", "Brak danych o kursach. Spróbuj odświeżyć stronę.");
   ustawTekst(".wykres-glowny-podtytul", "Brak danych o kursach");
 
+  const listyRankingu = pobierzListyRankingu();
+  if (listyRankingu) {
+    listyRankingu.forEach(function (lista) {
+      lista.replaceChildren(utworzKomunikatRankingu("Brak danych o kursach."));
+    });
+  }
+
   const cialo = document.querySelector(".tabela-porownania tbody");
   if (cialo) {
     const tr = document.createElement("tr");
@@ -512,5 +634,6 @@ document.addEventListener("DOMContentLoaded", function () {
   wypelnijListeAnalizy("porownaj-waluta-b", waluty.indexOf("USD") !== -1 ? "USD" : waluty[0]);
   podepnijZdarzeniaAnalizy();
   odswiezAnalize();
+  odswiezRanking();
   odswiezPorownanie();
 });
