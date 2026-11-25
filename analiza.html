@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Panel analizy kursów walut NBP – interaktywne wykresy Chart.js, wskaźniki statystyczne (min, max, średnia, zmiana), ranking TOP 5 i porównywarka walut.">
+  <meta name="description" content="Panel analizy kursów walut NBP – interaktywne wykresy Chart.js, wskaźniki statystyczne (min, max, średnia, zmiana), ranking TOP 3 i porównywarka walut.">
   <title>Analiza Rynku i Wykresy Kursów Walut NBP | KursyWalut</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
@@ -61,7 +61,7 @@
         <span class="nadtytul">Panel analityczny i statystyki rynku</span>
         <h1 class="tytul-podstrony">Analiza wahań i trendy kursów walut NBP</h1>
         <p class="podstrona-opis">
-          Kompleksowy moduł analizy ilościowej notowań walutowych. Poznaj kluczowe wskaźniki statystyczne (minimum, maksimum, średnia arytmetyczna, rozstęp), śledź interaktywne wykresy szeregów czasowych, badaj rankingi dynamiki TOP 5 oraz porównuj wybrane waluty.
+          Kompleksowy moduł analizy ilościowej notowań walutowych. Poznaj kluczowe wskaźniki statystyczne (minimum, maksimum, średnia arytmetyczna, rozstęp), śledź interaktywne wykresy szeregów czasowych, badaj rankingi dynamiki TOP 3 oraz porównuj wybrane waluty.
         </p>
       </header>
 
@@ -234,98 +234,30 @@
         </div>
       </section>
 
-      <!-- Moduły zaawansowane: Ranking TOP 5 oraz Porównywarka dwóch walut -->
+      <!-- Moduły zaawansowane: Ranking TOP 3 oraz Porównywarka dwóch walut -->
       <div class="siatka-zaawansowana">
         
-        <!-- Moduł 1: Ranking TOP 5 (Największe wahania i siła walut) -->
+        <!-- Moduł 1: Ranking TOP 3 (Największe wahania i siła walut) -->
         <section class="panel-karta-zaawansowana" aria-labelledby="tytul-ranking">
           <header class="panel-naglowek-wewnetrzny">
-            <h2 id="tytul-ranking" class="sekcja-tytul-maly">Ranking dynamiki walut (24h)</h2>
-            <span class="etykieta-podreczna">Największe ruchy względem PLN</span>
+            <h2 id="tytul-ranking" class="sekcja-tytul-maly">Ranking dynamiki walut (30 dni)</h2>
+            <span class="etykieta-podreczna">Zmiana kursu średniego NBP względem PLN</span>
           </header>
 
           <div class="dwie-kolumny-rankingu">
             <!-- Kolumna: TOP 3 Wzrosty -->
             <div class="kolumna-rankingu">
               <h3 class="naglowek-kolumny-rankingu tekst-sukces">Największe wzrosty</h3>
-              <ol class="lista-rankingu">
-                <li class="element-rankingu">
-                  <div class="ranking-waluta">
-                    <img src="img/flagi/nok.svg" alt="Flaga Norwegii" class="flaga-ikona" width="22" height="16">
-                    <span class="kod-rankingu">NOK</span>
-                    <span class="nazwa-rankingu">Korona norweska</span>
-                  </div>
-                  <div class="ranking-wynik">
-                    <strong class="kurs-rankingu">0.4179 zł</strong>
-                    <span class="odznaka-zmiany odznaka-wzrost">+0.45%</span>
-                  </div>
-                </li>
-
-                <li class="element-rankingu">
-                  <div class="ranking-waluta">
-                    <img src="img/flagi/chf.svg" alt="Flaga Szwajcarii" class="flaga-ikona" width="22" height="16">
-                    <span class="kod-rankingu">CHF</span>
-                    <span class="nazwa-rankingu">Frank szwajcarski</span>
-                  </div>
-                  <div class="ranking-wynik">
-                    <strong class="kurs-rankingu">4.7925 zł</strong>
-                    <span class="odznaka-zmiany odznaka-wzrost">+0.31%</span>
-                  </div>
-                </li>
-
-                <li class="element-rankingu">
-                  <div class="ranking-waluta">
-                    <img src="img/flagi/aud.svg" alt="Flaga Australii" class="flaga-ikona" width="22" height="16">
-                    <span class="kod-rankingu">AUD</span>
-                    <span class="nazwa-rankingu">Dolar australijski</span>
-                  </div>
-                  <div class="ranking-wynik">
-                    <strong class="kurs-rankingu">2.5930 zł</strong>
-                    <span class="odznaka-zmiany odznaka-wzrost">+0.22%</span>
-                  </div>
-                </li>
+              <ol id="ranking-wzrosty" class="lista-rankingu" aria-live="polite">
+                <li class="element-rankingu">Ładowanie rankingu…</li>
               </ol>
             </div>
 
             <!-- Kolumna: TOP 3 Spadki -->
             <div class="kolumna-rankingu">
               <h3 class="naglowek-kolumny-rankingu tekst-ostrzezenie">Największe spadki</h3>
-              <ol class="lista-rankingu">
-                <li class="element-rankingu">
-                  <div class="ranking-waluta">
-                    <img src="img/flagi/try.svg" alt="Flaga Turcji" class="flaga-ikona" width="22" height="16">
-                    <span class="kod-rankingu">TRY</span>
-                    <span class="nazwa-rankingu">Lira turecka</span>
-                  </div>
-                  <div class="ranking-wynik">
-                    <strong class="kurs-rankingu">0.1142 zł</strong>
-                    <span class="odznaka-zmiany odznaka-spadek">-0.65%</span>
-                  </div>
-                </li>
-
-                <li class="element-rankingu">
-                  <div class="ranking-waluta">
-                    <img src="img/flagi/huf.svg" alt="Flaga Węgier" class="flaga-ikona" width="22" height="16">
-                    <span class="kod-rankingu">100 HUF</span>
-                    <span class="nazwa-rankingu">Forint węgierski</span>
-                  </div>
-                  <div class="ranking-wynik">
-                    <strong class="kurs-rankingu">1.2080 zł</strong>
-                    <span class="odznaka-zmiany odznaka-spadek">-0.32%</span>
-                  </div>
-                </li>
-
-                <li class="element-rankingu">
-                  <div class="ranking-waluta">
-                    <img src="img/flagi/usd.svg" alt="Flaga Stanów Zjednoczonych" class="flaga-ikona" width="22" height="16">
-                    <span class="kod-rankingu">USD</span>
-                    <span class="nazwa-rankingu">Dolar amerykański</span>
-                  </div>
-                  <div class="ranking-wynik">
-                    <strong class="kurs-rankingu">3.9199 zł</strong>
-                    <span class="odznaka-zmiany odznaka-spadek">-0.25%</span>
-                  </div>
-                </li>
+              <ol id="ranking-spadki" class="lista-rankingu" aria-live="polite">
+                <li class="element-rankingu">Ładowanie rankingu…</li>
               </ol>
             </div>
           </div>

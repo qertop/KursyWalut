@@ -35,6 +35,7 @@ Zmiana nazwy bez uzgodnienia jest niedozwolona. Nowe elementy dopisujemy do tabe
 | dane | `filtr-waluta`, `filtr-od`, `filtr-do`, `filtr-szukaj`, `tabela-kursow` | filtry i tabela |
 | dane | `th[data-sort="data"]`, `th[data-sort="sredni"]` itd. | nagłówki do sortowania |
 | analiza | `wskaznik-min`, `wskaznik-max`, `wskaznik-srednia`, `wskaznik-zmiana`, `wykres-glowny` | dashboard |
+| analiza | `tytul-ranking`, `ranking-wzrosty`, `ranking-spadki` | ranking TOP 3 wzrostów i spadków |
 | wszystkie | `przelacznik-motywu` | motyw jasny/ciemny |
 
 Klasy CSS: `kebab-case` (np. `karta-waluty`). Funkcje i zmienne JS: `camelCase`, konsekwentnie w jednym języku w całym projekcie.
